@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
           title: Text(appTitle),
         ),
@@ -44,34 +45,79 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            onSaved: (text) => setState(() => this._input = text),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                _formKey.currentState.save();
-                cookie = Cookie('id', _input);
-                cookie.secure = true;
-                print(cookie);
-                _launchURL(_input);
-              },
-              child: Text('submit'),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[500],
+                offset: Offset(4.0, 4.0),
+                blurRadius: 15,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: Colors.white,
+                offset: Offset(-4.0, -4.0),
+                blurRadius: 15,
+                spreadRadius: 1,
+              )
+            ]),
+        height: MediaQuery.of(context).size.height * 0.75,
+        width: MediaQuery.of(context).size.width * 0.75,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                        height: 300,
+                        child: Image(
+                            image: AssetImage('assets/images/logo.png'),
+                            fit: BoxFit.fitHeight)),
+                  ],
+                ),
+                TextFormField(
+                  onSaved: (text) => setState(() => this._input = text),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: RaisedButton(
+                    onPressed: () {
+                      _formKey.currentState.save();
+                      cookie = Cookie('id', _input);
+                      cookie.secure = true;
+                      print(cookie);
+                      _launchURL(_input);
+                    },
+                    child: Text('submit'),
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                //   child: RaisedButton(
+                //     onPressed: () {
+                //       print(cookie);
+                //     },
+                //     child: Text('submit'),
+                //   ),
+                // ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
