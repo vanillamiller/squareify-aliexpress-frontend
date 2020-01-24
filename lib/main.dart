@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:squareneumorphic/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
@@ -12,6 +13,11 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: appTitle,
+      initialRoute: Welcome,
+      routes: {
+        "/": (context) => MyCustomForm(),
+        Welcome: (context) => Container(color: Colors.blue)
+      },
       home: Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
@@ -121,6 +127,13 @@ class MyCustomFormState extends State<MyCustomForm> {
       ),
     );
   }
+}
+
+class ScreenArguments {
+  final String title;
+  final String message;
+
+  ScreenArguments(this.title, this.message);
 }
 
 _launchURL(String text) async {
