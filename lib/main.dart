@@ -40,7 +40,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   String _input = '';
-
+  Cookie cookie;
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -50,7 +50,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            onChanged: (text) => setState(() => this._input = text),
+            onSaved: (text) => setState(() => this._input = text),
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
@@ -62,6 +62,10 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
               onPressed: () {
+                _formKey.currentState.save();
+                cookie = Cookie('id', _input);
+                cookie.secure = true;
+                print(cookie);
                 _launchURL(_input);
               },
               child: Text('submit'),
@@ -81,10 +85,3 @@ _launchURL(String text) async {
     throw 'Could not launch $url';
   }
 }
-
-// RegExp link = new RegExp(r'"([^"]*)"');
-
-// _getCode() async => await HttpClient()
-//     .getUrl(Uri.parse(
-//         'https://squareupsandbox.com/oauth2/authorize?client_id=sandbox-sq0idb-9-aHuRqCAFAbgjNyoQy9RA&scope=INVENTORY_READ'))
-//     .then((request) => request.close());
