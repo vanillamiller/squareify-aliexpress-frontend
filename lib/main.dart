@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:squareneumorphic/routes.dart';
+// import 'package:squareneumorphic/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
@@ -13,16 +13,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: appTitle,
-      initialRoute: Welcome,
-      routes: {
-        "/": (context) => MyCustomForm(),
-        Welcome: (context) => Container(color: Colors.blue)
-      },
       home: Scaffold(
         backgroundColor: Colors.grey[300],
-        appBar: AppBar(
-          title: Text(appTitle),
-        ),
         body: MyCustomForm(),
       ),
     );
@@ -79,6 +71,9 @@ class MyCustomFormState extends State<MyCustomForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Uri.base.queryParameters['code'] == null
+                    ? Container()
+                    : Text("query " + Uri.base.queryParameters['code']),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -103,23 +98,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                   child: RaisedButton(
                     onPressed: () {
                       _formKey.currentState.save();
-                      cookie = Cookie('id', _input);
-                      cookie.secure = true;
-                      print(cookie);
+                      // cookie = Cookie('id', _input);
+                      // cookie.secure = true;
+                      // print(cookie);
                       _launchURL(_input);
                     },
                     child: Text('submit'),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                //   child: RaisedButton(
-                //     onPressed: () {
-                //       print(cookie);
-                //     },
-                //     child: Text('submit'),
-                //   ),
-                // ),
               ],
             ),
           ),
