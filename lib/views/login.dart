@@ -6,6 +6,7 @@ import 'errorpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatelessWidget {
+  static const path = '/login';
   final String code;
   LoginView(this.code);
   @override

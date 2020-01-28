@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorView extends StatelessWidget {
+  static const path = '/error';
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Center(

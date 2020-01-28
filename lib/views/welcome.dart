@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Welcome extends StatelessWidget {
+  static const path = '/';
   @override
   Widget build(BuildContext context) =>
       Scaffold(body: MyCustomForm(), backgroundColor: Colors.grey[300]);
