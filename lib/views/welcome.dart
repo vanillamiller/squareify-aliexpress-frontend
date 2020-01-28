@@ -109,7 +109,8 @@ class ScreenArguments {
 }
 
 _launchURL(String text) async {
-  var url = 'https://squareupsandbox.com/oauth2/authorize?client_id=$text';
+  var url =
+      'https://squareupsandbox.com/oauth2/authorize?client_id=$text&scope=INVENTORY_WRITE';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

@@ -2,18 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'errorpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatelessWidget {
+  final String code;
+  LoginView(this.code);
   @override
-  Widget build(BuildContext context) => Uri.base.queryParameters['code'] == null
-      ? Error()
-      : Scaffold(backgroundColor: Colors.grey[300], body: LoginForm());
+  Widget build(BuildContext context) =>
+      Scaffold(backgroundColor: Colors.grey[300], body: LoginForm(this.code));
 }
 
 class LoginForm extends StatefulWidget {
+  final String code;
+  LoginForm(this.code);
   @override
-  State<StatefulWidget> createState() => LoginFormState();
+  State<StatefulWidget> createState() => LoginFormState(this.code);
 }
 
 class LoginFormState extends State<LoginForm> {
@@ -22,6 +26,9 @@ class LoginFormState extends State<LoginForm> {
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
+  final String code;
+  LoginFormState(this.code);
+
   final _formKey = GlobalKey<FormState>();
   String _clientId = '';
   String _passWord = '';
@@ -57,6 +64,7 @@ class LoginFormState extends State<LoginForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text('$code'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
