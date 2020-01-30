@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:squareneumorphic/views/dashboard.dart';
@@ -13,13 +15,9 @@ Route<dynamic> _getRoute(RouteSettings settings, Widget view) =>
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   RoutingData route = settings.name.getRoutingData;
-  print(route.path);
-
   switch (route.path) {
     case Welcome.path:
       return _getRoute(settings, Welcome());
-    case LoginView.path:
-      return _getRoute(settings, LoginView(route._queryParameters['code']));
     case Dashboard.path:
       return _getRoute(settings, Dashboard());
     case ErrorView.path:
@@ -27,16 +25,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     default:
       return _getRoute(settings, ErrorView());
   }
-
-  // if (settings.name == '/login') {
-  //   print('fired');
-  //   final String code = settings.arguments as String;
-  //   return MaterialPageRoute<void>(
-  //     settings: settings,
-  //     builder: (BuildContext context) => LoginView(code),
-  //   );
-  // }
-  // return null;
 }
 
 class RoutingData {

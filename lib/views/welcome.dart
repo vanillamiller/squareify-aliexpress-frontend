@@ -1,120 +1,152 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:squareneumorphic/images.dart';
+import 'package:squareneumorphic/textstyles.dart';
+import 'package:squareneumorphic/utils.dart';
+import 'package:squareneumorphic/views/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Welcome extends StatelessWidget {
   static const path = '/';
   @override
   Widget build(BuildContext context) =>
-      Scaffold(body: MyCustomForm(), backgroundColor: Colors.grey[300]);
+      Scaffold(body: WelcomeBody(), backgroundColor: Colors.grey[100]);
 }
 
-// Create a Form widget.
-class MyCustomForm extends StatefulWidget {
+class WelcomeBody extends StatelessWidget {
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
-}
-
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
-  final _formKey = GlobalKey<FormState>();
-  String _input = '';
-  @override
-  Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[500],
-                offset: Offset(4.0, 4.0),
-                blurRadius: 15,
-                spreadRadius: 1,
-              ),
-              BoxShadow(
-                color: Colors.white,
-                offset: Offset(-4.0, -4.0),
-                blurRadius: 15,
-                spreadRadius: 1,
-              )
-            ]),
-        height: MediaQuery.of(context).size.height * 0.75,
-        width: MediaQuery.of(context).size.width * 0.75,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) => SafeArea(
+        child: SizedBox(
+            height: screenHeight(context),
+            width: screenWidth(context),
+            child: Stack(
               children: <Widget>[
-                // Uri.base.queryParameters['code'] == null
-                //     ? Container()
-                //     : Text("query " + Uri.base.queryParameters['code']),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
                   children: <Widget>[
-                    SizedBox(
-                        height: 300,
-                        child: Image(
-                            image: AssetImage('assets/images/logo.png'),
-                            fit: BoxFit.fitHeight)),
+                    Expanded(flex: 4, child: Container()),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          child: Waves([
+                            [
+                              Color(0xFFFFD460),
+                              Color(0xFFFFCC75),
+                            ],
+                            [Color(0xffF07B3F), Color(0xffFF8E6C)],
+                            [
+                              Color(0xFFFF748C),
+                              Color(0xFFEA5455),
+                            ]
+                          ]),
+                        ))
                   ],
                 ),
-                TextFormField(
-                  onSaved: (text) => setState(() => this._input = text),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      _formKey.currentState.save();
-                      // cookie = Cookie('id', _input);
-                      // cookie.secure = true;
-                      // print(cookie);
-                      _launchURL(_input);
-                    },
-                    child: Text('submit'),
-                  ),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Text('Squarify AliExpress',
+                              style: heading(context)),
+                        )
+                      ],
+                    ),
+                    Wrap(
+                      runAlignment: WrapAlignment.spaceBetween,
+                      // alignment: WrapAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey[400],
+                                    offset: Offset(4.0, 4.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1,
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-4.0, -4.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1,
+                                  )
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: SizedBox(
+                                  width: isLandscape(context)
+                                      ? screenWidth(context) * 0.15
+                                      : null,
+                                  height: isLandscape(context)
+                                      ? null
+                                      : screenHeight(context) * 0.25,
+                                  child: aliLogo(context)),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey[400],
+                                    offset: Offset(4.0, 4.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1,
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-4.0, -4.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1,
+                                  )
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: SizedBox(
+                                  width: isLandscape(context)
+                                      ? screenWidth(context) * 0.15
+                                      : null,
+                                  height: isLandscape(context)
+                                      ? null
+                                      : screenHeight(context) * 0.25,
+                                  child: squareLogo(context)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[],
+                    )
+                  ],
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+            )),
+      );
 }
 
-class ScreenArguments {
-  final String title;
-  final String message;
-
-  ScreenArguments(this.title, this.message);
-}
-
-_launchURL(String text) async {
-  var url =
-      'https://squareupsandbox.com/oauth2/authorize?client_id=$text&scope=INVENTORY_WRITE';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+// _launchURL(String text) async {
+//   var url =
+//       'https://squareupsandbox.com/oauth2/authorize?client_id=$text&scope=INVENTORY_WRITE';
+//   if (await canLaunch(url)) {
+//     await launch(url);
+//   } else {
+//     throw 'Could not launch $url';
+//   }
+// }
