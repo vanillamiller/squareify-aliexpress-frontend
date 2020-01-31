@@ -7,3 +7,9 @@ TextStyle heading(BuildContext context) => TextStyle(
       fontWeight: FontWeight.w700,
       color: Color(0xff2e3b4e),
     );
+
+TextStyle button(BuildContext context) => TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: Color(0xff2e3b4e),
+    );

@@ -132,7 +132,28 @@ class WelcomeBody extends StatelessWidget {
                       ],
                     ),
                     Row(
-                      children: <Widget>[],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 42),
+                          child: RaisedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  tinySquareLogo(context),
+                                  SizedBox(width: 10),
+                                  Text('authorize', style: button(context))
+                                ],
+                              ),
+                            ),
+                            onPressed: () => _launchURL(),
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -141,12 +162,12 @@ class WelcomeBody extends StatelessWidget {
       );
 }
 
-// _launchURL(String text) async {
-//   var url =
-//       'https://squareupsandbox.com/oauth2/authorize?client_id=$text&scope=INVENTORY_WRITE';
-//   if (await canLaunch(url)) {
-//     await launch(url);
-//   } else {
-//     throw 'Could not launch $url';
-//   }
-// }
+_launchURL() async {
+  var url =
+      'https://connect.squareup.com/oauth2/authorize?client_id=sq0idp-xt-Zcw3N2Fx4I-CIbh86Bg&scope=INVENTORY_WRITE';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
