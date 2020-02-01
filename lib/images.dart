@@ -12,3 +12,6 @@ Image tinySquareLogo(BuildContext context) => Image(
 Image aliLogo(BuildContext context) => Image(
     image: AssetImage('assets/images/aliexpress.png'),
     fit: isLandscape(context) ? BoxFit.fitWidth : BoxFit.fitHeight);
+
+Image placeholderBoxImage(BuildContext context) =>
+    Image(image: AssetImage('assets/images/box.png'), fit: BoxFit.contain);

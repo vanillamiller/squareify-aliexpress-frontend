@@ -142,7 +142,8 @@ class Welcome extends StatelessWidget {
 
 _launchURL() async {
   var url =
-      'https://connect.squareup.com/oauth2/authorize?client_id=sq0idp-xt-Zcw3N2Fx4I-CIbh86Bg&scope=ITEMS_READ,ITEMS_WRITE';
+      'https://connect.squareup.com/oauth2/authorize?client_id=sq0idp-xt-Zcw3N2Fx4I-CIbh86Bg&scope=ITEMS_READ ITEMS_WRITE';
+  // var uri = Uri.parse(url);
   if (await canLaunch(url)) {
     await launch(url);
   } else {
