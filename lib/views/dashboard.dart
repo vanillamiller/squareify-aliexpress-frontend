@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
@@ -15,6 +16,9 @@ class DashboardView extends StatelessWidget {
 // BoxConstraints mainTileConstraints(BuildContext context) =>
 //     isLandscape(context) ? BoxConstraints() : BoxConstraints();
 
+double mainTileWidth(BuildContext context) => screenWidth(context) / 2 - 96;
+double mainTileHeight(BuildContext context) => screenHeight(context) - 48;
+
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
@@ -23,19 +27,19 @@ class Dashboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(48),
+            padding: EdgeInsets.all(32),
             child: Container(
                 // constraints: mainTileConstraints(context),
-                height: screenHeight(context) - 64,
-                width: screenWidth(context) / 2 - 96,
+                height: mainTileHeight(context),
+                width: mainTileWidth(context),
                 decoration: neumorphicBox,
                 child: AliItemView()),
           ),
           Padding(
-            padding: const EdgeInsets.all(48),
+            padding: const EdgeInsets.all(32),
             child: Container(
-              height: screenHeight(context) - 64,
-              width: screenWidth(context) / 2 - 96,
+              height: mainTileHeight(context),
+              width: mainTileWidth(context),
               decoration: neumorphicBox,
             ),
           )
@@ -48,30 +52,30 @@ class AliItemView extends StatelessWidget {
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) => Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('${constraints.maxHeight}'),
-              Text('${constraints.maxWidth}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[],
-              ),
-              Row(
-                children: <Widget>[
-                  AliUrlForm(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                      child: SizedBox(
-                          height: constraints.maxHeight / 3,
-                          child: placeholderBoxImage(context)))
-                ],
-              ),
-            ],
+          child: ChangeNotifierProvider(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[],
+                ),
+                Row(
+                  children: <Widget>[
+                    AliUrlForm(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: SizedBox(
+                            height: constraints.maxHeight / 3,
+                            child: placeholderBoxImage(context)))
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -104,14 +108,12 @@ class AliUrlFormState extends State<AliUrlForm> {
       builder: (BuildContext context, BoxConstraints constraints) => Form(
         key: _formKey,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text('${constraints.maxHeight}'),
-            Text('${constraints.maxWidth}'),
             Padding(
               padding: const EdgeInsets.all(16),
               child: SizedBox(
-                width: 400,
+                width: mainTileWidth(context) * 0.6,
                 // height: 200,
                 child: TextFormField(
                     validator: (value) =>
