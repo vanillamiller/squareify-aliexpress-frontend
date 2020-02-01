@@ -14,4 +14,4 @@ Image aliLogo(BuildContext context) => Image(
     fit: isLandscape(context) ? BoxFit.fitWidth : BoxFit.fitHeight);
 
 Image placeholderBoxImage(BuildContext context) =>
-    Image(image: AssetImage('assets/images/box.png'), fit: BoxFit.contain);
+    Image(image: AssetImage('assets/images/box.png'), fit: BoxFit.fitHeight);

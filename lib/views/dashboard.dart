@@ -12,6 +12,9 @@ class DashboardView extends StatelessWidget {
       child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[100]));
 }
 
+// BoxConstraints mainTileConstraints(BuildContext context) =>
+//     isLandscape(context) ? BoxConstraints() : BoxConstraints();
+
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
@@ -22,6 +25,7 @@ class Dashboard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(48),
             child: Container(
+                // constraints: mainTileConstraints(context),
                 height: screenHeight(context) - 64,
                 width: screenWidth(context) / 2 - 96,
                 decoration: neumorphicBox,
@@ -45,7 +49,10 @@ class AliItemView extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) => Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              Text('${constraints.maxHeight}'),
+              Text('${constraints.maxWidth}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[],
@@ -60,7 +67,8 @@ class AliItemView extends StatelessWidget {
                 children: <Widget>[
                   Center(
                       child: SizedBox(
-                          height: 200, child: placeholderBoxImage(context)))
+                          height: constraints.maxHeight / 3,
+                          child: placeholderBoxImage(context)))
                 ],
               ),
             ],
@@ -98,11 +106,13 @@ class AliUrlFormState extends State<AliUrlForm> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            Text('${constraints.maxHeight}'),
+            Text('${constraints.maxWidth}'),
             Padding(
               padding: const EdgeInsets.all(16),
               child: SizedBox(
                 width: 400,
-                height: 200,
+                // height: 200,
                 child: TextFormField(
                     validator: (value) =>
                         RegExp("aliexpress\.com\/item\/[0-9]*\.html")
