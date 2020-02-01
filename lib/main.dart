@@ -7,10 +7,8 @@ class MyApp extends StatelessWidget {
   final _appTitle = 'AliExpress Squarifier';
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _appTitle,
-      onGenerateRoute: Router.generateRoute,
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: _appTitle,
+        onGenerateRoute: Router.generateRoute,
+      );
 }

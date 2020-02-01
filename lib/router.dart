@@ -16,10 +16,10 @@ Route<dynamic> _getRoute(RouteSettings settings, Widget view) =>
 Route<dynamic> generateRoute(RouteSettings settings) {
   RoutingData route = settings.name.getRoutingData;
   switch (route.path) {
-    case Welcome.path:
-      return _getRoute(settings, Welcome());
-    case Dashboard.path:
-      return _getRoute(settings, Dashboard());
+    case WelcomeView.path:
+      return _getRoute(settings, WelcomeView());
+    case DashboardView.path:
+      return _getRoute(settings, DashboardView());
     case ErrorView.path:
       return _getRoute(settings, ErrorView());
     default:
