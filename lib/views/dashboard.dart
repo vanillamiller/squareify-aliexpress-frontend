@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:squareneumorphic/models/pendingItem.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
@@ -52,7 +53,9 @@ class AliItemView extends StatelessWidget {
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) => Padding(
           padding: const EdgeInsets.all(16),
+          // TODO: implement ChangeNotifier here
           child: ChangeNotifierProvider(
+            create: (context) => PendingItem(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -69,9 +72,12 @@ class AliItemView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Center(
-                        child: SizedBox(
-                            height: constraints.maxHeight / 3,
-                            child: placeholderBoxImage(context)))
+                        child: Consumer<PendingItem>(
+                      builder: (context, pendingItem, child) =>
+                          pendingItem.itemString == null
+                              ? placeholderBoxImage(context)
+                              : Text('hello ${pendingItem.itemString}'),
+                    ))
                   ],
                 ),
               ],
@@ -103,6 +109,7 @@ class AliUrlFormState extends State<AliUrlForm> {
 
   @override
   Widget build(BuildContext context) {
+    final _pendingItemProvider = Provider.of<PendingItem>(context);
     // Build a Form widget using the _formKey created above.
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Form(
@@ -133,8 +140,8 @@ class AliUrlFormState extends State<AliUrlForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState.validate()) {
-                    // If the form is valid, display a Snackbar.
-
+                    String text = _formKey.currentState.toString();
+                    _pendingItemProvider.itemString = text;
                   }
                 },
                 child: Text('Submit'),
