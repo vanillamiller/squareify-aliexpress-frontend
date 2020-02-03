@@ -4,7 +4,16 @@ class Item {
   String _description;
   Iterable<Map<String, Object>> _options;
 
-  // Item(this._id) {
-  //   var
-  // }
+  String get id => _id;
+  set id(String id) => _id = id;
+
+  String get name => _name;
+  set name(String name) => _name = name;
+
+  String get description => _description;
+  set description(String desc) => _description = desc;
+
+  Iterable<Map<String, List<String>>> get options => _options;
+  set options(Iterable<Map<String, List<String>>> optiions) =>
+      _options = options;
 }

@@ -61,7 +61,13 @@ class AliItemView extends StatelessWidget {
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[],
+                  children: <Widget>[
+                    Container(
+                        // height: 150,
+                        // width: 150,
+                        decoration: neumorphicCircle,
+                        child: aliTiny(context))
+                  ],
                 ),
                 Row(
                   children: <Widget>[
@@ -75,8 +81,10 @@ class AliItemView extends StatelessWidget {
                         child: Consumer<PendingItem>(
                       builder: (context, pendingItem, child) =>
                           pendingItem.itemString == null
-                              ? placeholderBoxImage(context)
-                              : Text('hello ${pendingItem.itemString}'),
+                              ? SizedBox(
+                                  height: 300,
+                                  child: placeholderBoxImage(context))
+                              : Text('${pendingItem.itemString}'),
                     ))
                   ],
                 ),
@@ -106,7 +114,12 @@ class AliUrlFormState extends State<AliUrlForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+  final _urlInputController = TextEditingController();
 
+  String getItemId(url) => RegExp("item\/[0-9]*\.html")
+    .stringMatch(url)
+    .replaceAll(RegExp("[^0-9]+"), '');
+    
   @override
   Widget build(BuildContext context) {
     final _pendingItemProvider = Provider.of<PendingItem>(context);
@@ -123,6 +136,7 @@ class AliUrlFormState extends State<AliUrlForm> {
                 width: mainTileWidth(context) * 0.6,
                 // height: 200,
                 child: TextFormField(
+                    controller: _urlInputController,
                     validator: (value) =>
                         RegExp("aliexpress\.com\/item\/[0-9]*\.html")
                                 .hasMatch(value)
@@ -140,8 +154,8 @@ class AliUrlFormState extends State<AliUrlForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState.validate()) {
-                    String text = _formKey.currentState.toString();
-                    _pendingItemProvider.itemString = text;
+                    String text = _urlInputController.text;
+                    _pendingItemProvider.itemString = getItemId(text);
                   }
                 },
                 child: Text('Submit'),
@@ -153,3 +167,5 @@ class AliUrlFormState extends State<AliUrlForm> {
     );
   }
 }
+
+
