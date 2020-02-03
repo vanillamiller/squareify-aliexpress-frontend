@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/models/pendingItem.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';
@@ -80,11 +81,11 @@ class AliItemView extends StatelessWidget {
                     Center(
                         child: Consumer<PendingItem>(
                       builder: (context, pendingItem, child) =>
-                          pendingItem.itemString == null
+                          pendingItem.itemId == null
                               ? SizedBox(
                                   height: 300,
                                   child: placeholderBoxImage(context))
-                              : Text('${pendingItem.itemString}'),
+                              : ItemView(itemId: pendingItem.itemId),
                     ))
                   ],
                 ),
@@ -117,9 +118,9 @@ class AliUrlFormState extends State<AliUrlForm> {
   final _urlInputController = TextEditingController();
 
   String getItemId(url) => RegExp("item\/[0-9]*\.html")
-    .stringMatch(url)
-    .replaceAll(RegExp("[^0-9]+"), '');
-    
+      .stringMatch(url)
+      .replaceAll(RegExp("[^0-9]+"), '');
+
   @override
   Widget build(BuildContext context) {
     final _pendingItemProvider = Provider.of<PendingItem>(context);
@@ -155,7 +156,7 @@ class AliUrlFormState extends State<AliUrlForm> {
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     String text = _urlInputController.text;
-                    _pendingItemProvider.itemString = getItemId(text);
+                    _pendingItemProvider.itemId = getItemId(text);
                   }
                 },
                 child: Text('Submit'),
@@ -168,4 +169,34 @@ class AliUrlFormState extends State<AliUrlForm> {
   }
 }
 
+class ItemView extends StatefulWidget {
+  final String _itemId;
+  ItemView({Key key, String itemId})
+      : _itemId = itemId,
+        super(key: key);
+  @override
+  State<StatefulWidget> createState() => ItemViewState();
+}
 
+class ItemViewState extends State<ItemView> {
+  Future<Item> _item;
+
+  @override
+  void initState() {
+    super.initState();
+    _item = Item.load(widget._itemId);
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder<Item>(
+      future: _item,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data.name);
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
+        return CircularProgressIndicator();
+      });
+}

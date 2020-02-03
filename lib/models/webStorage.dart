@@ -9,6 +9,7 @@
 //   }
 
 //   String get sessionId => window.localStorage['SessionId'];
+
 //   set sessionId(String sid) => (sid == null)
 //       ? window.localStorage.remove('SessionId')
 //       : window.localStorage['SessionId'] = sid;
