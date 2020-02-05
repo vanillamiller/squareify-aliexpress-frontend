@@ -111,8 +111,8 @@ class ChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
       decoration: neumorphicBox,
-      height: 60,
-      width: 60,
+      height: 100,
+      width: 100,
       child: Center(
         child: Text(_choiceName),
       ));
