@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
@@ -15,24 +16,29 @@ class ItemView extends StatefulWidget {
 }
 
 class ItemViewState extends State<ItemView> {
-  Future<Item> _item;
-
+  Future<Item> _itemFuture;
+  Item _item;
   @override
   void initState() {
     super.initState();
-    _item = Item.load(widget._itemId);
+    _itemFuture = Item.load(widget._itemId);
   }
 
   @override
   Widget build(BuildContext context) => FutureBuilder<Item>(
-      future: _item,
+      future: _itemFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Item loadedItem = snapshot.data;
+          // setState(() => _item = loadedItem);
+          print('iamges: ${loadedItem.images}');
           return Container(
               width: mainTileWidth(context) * 0.8,
               child: Column(
                 children: <Widget>[
+                  ItemImageBar(
+                    imageUrls: loadedItem.images,
+                  ),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -81,6 +87,44 @@ List<OptionBar> buildOptionBarList(List<Option> options) {
   return options.map<OptionBar>((opt) => new OptionBar(option: opt)).toList();
 }
 
+class ItemImageBar extends StatelessWidget {
+  final List<String> _imageUrls;
+
+  ItemImageBar({List<String> imageUrls}) : _imageUrls = imageUrls;
+  @override
+  Widget build(BuildContext context) => Container(
+          child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[Text('Images')],
+          ),
+          Wrap(
+            children: <ItemImage>[...insertImages(_imageUrls)],
+          )
+        ],
+      ));
+
+  List<ItemImage> insertImages(List<String> imageurls) =>
+      imageurls.map<ItemImage>((url) => ItemImage(url: url)).toList();
+}
+
+class ItemImage extends StatelessWidget {
+  final String _url;
+  ItemImage({String url}) : _url = url;
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 120,
+          child: Image.network(
+            _url,
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+      );
+}
+
 class OptionBar extends StatelessWidget {
   final Option _option;
 
@@ -93,9 +137,14 @@ class OptionBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 16),
           child: Column(
             children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(_option.name)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text(_option.name)),
+                ],
+              ),
               Wrap(
                 children: _option.values
                     .map<ChoiceTile>((value) => ChoiceTile(name: value.name))

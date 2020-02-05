@@ -109,7 +109,7 @@ class AliUrlFormState extends State<AliUrlForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  final _urlInputController = TextEditingController();
+  var _urlInputController = TextEditingController();
 
   String getItemId(url) => RegExp("item\/[0-9]*\.html")
       .stringMatch(url)

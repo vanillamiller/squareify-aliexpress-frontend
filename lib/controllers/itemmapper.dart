@@ -7,7 +7,8 @@ final String url =
 
 Future<Item> getAliExpressItemById(String id) async {
   print('in item net');
-  final response = await http.get('$url/dev/items?item=$id');
+  final response = await http.get(
+      'https://7ec8t75vad.execute-api.ap-southeast-2.amazonaws.com/dev/items?item=$id');
   print("response is: $response");
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.

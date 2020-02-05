@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:squareneumorphic/models/item.dart';
 
 class PendingItem extends ChangeNotifier {
   String _itemId;

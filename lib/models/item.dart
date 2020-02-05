@@ -40,6 +40,8 @@ class Item {
   List<Option> get options => _options;
   set options(List<Option> options) => _options = options;
 
+  List<String> get images => _potentialImageurls;
+
   static Future<Item> load(String id) => ItemMapper.getAliExpressItemById(id);
 
   void log() {
@@ -56,6 +58,11 @@ class Item {
     return listOfOptions.map((opt) => Option.fromJson(opt)).toList();
   }
 
+  static List<String> parseImageUrls(imagesJson) {
+    var listofImages = imagesJson as List;
+    return listofImages.map<String>((opt) => opt).toList();
+  }
+
   factory Item.fromJson(Map<String, dynamic> json) {
     // print('${json['id']}');
     // print('${json['name']}');
@@ -66,7 +73,8 @@ class Item {
         id: json['id'].toString(),
         name: json['name'] as String,
         description: json['description'] as String,
-        options: parseOptions(json));
+        options: parseOptions(json),
+        potentialImageurls: parseImageUrls(json['images']));
   }
 }
 
