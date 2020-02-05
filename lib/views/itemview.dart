@@ -63,7 +63,7 @@ class ItemViewState extends State<ItemView> {
                           )),
                     ],
                   ),
-                  ...optionBarBuilder(loadedItem.options)
+                  ...buildOptionBarList(loadedItem.options)
                 ],
               ));
           // return Container(
@@ -77,7 +77,7 @@ class ItemViewState extends State<ItemView> {
       });
 }
 
-List<OptionBar> optionBarBuilder(List<Option> options) {
+List<OptionBar> buildOptionBarList(List<Option> options) {
   return options.map<OptionBar>((opt) => new OptionBar(option: opt)).toList();
 }
 
@@ -90,9 +90,12 @@ class OptionBar extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16),
           child: Column(
             children: <Widget>[
-              Text(_option.name),
+              Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(_option.name)),
               Wrap(
                 children: _option.values
                     .map<ChoiceTile>((value) => ChoiceTile(name: value.name))
@@ -109,11 +112,14 @@ class ChoiceTile extends StatelessWidget {
   ChoiceTile({String name}) : _choiceName = name;
 
   @override
-  Widget build(BuildContext context) => Container(
-      decoration: neumorphicBox,
-      height: 100,
-      width: 100,
-      child: Center(
-        child: Text(_choiceName),
-      ));
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.all(8),
+        child: Container(
+            decoration: neumorphicBox,
+            height: 80,
+            width: 80,
+            child: Center(
+              child: Text(_choiceName),
+            )),
+      );
 }

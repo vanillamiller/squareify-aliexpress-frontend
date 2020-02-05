@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
-import '../controllers/itemmappers.dart' as ItemMapper;
+import '../controllers/itemmapper.dart' as ItemMapper;
 
 class Item {
   @required
   final String _id;
   String _name;
   String _description;
-  List<String> _potentialImages;
+  List<String> _potentialImageurls;
   List<Option> _options;
 
   Item(
@@ -22,7 +22,7 @@ class Item {
         _description = description,
         _name = name,
         _options = options,
-        _potentialImages = potentialImageurls;
+        _potentialImageurls = potentialImageurls;
 
   // Item(String id) : _id = id;
 

@@ -55,43 +55,41 @@ class AliItemView extends StatelessWidget {
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) => Padding(
           padding: const EdgeInsets.all(16),
-          // TODO: implement ChangeNotifier here
           child: ChangeNotifierProvider(
             create: (context) => PendingItem(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        // height: 150,
-                        // width: 150,
-                        decoration: neumorphicCircle,
-                        child: aliTiny(context))
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    AliUrlForm(),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                        child: Consumer<PendingItem>(
-                      builder: (context, pendingItem, child) =>
-                          pendingItem.itemId == null
-                              ? SizedBox(
-                                  height: 300,
-                                  child: placeholderBoxImage(context))
-                              : ItemView(itemId: pendingItem.itemId),
-                    ))
-                  ],
-                ),
-              ],
-            ),
+            child: ListView(children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          decoration: neumorphicCircle, child: aliTiny(context))
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      AliUrlForm(),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                          child: Consumer<PendingItem>(
+                        builder: (context, pendingItem, child) =>
+                            pendingItem.itemId == null
+                                ? SizedBox(
+                                    height: 300,
+                                    child: placeholderBoxImage(context))
+                                : ItemView(itemId: pendingItem.itemId),
+                      ))
+                    ],
+                  ),
+                ],
+              ),
+            ]),
           ),
         ),
       );
