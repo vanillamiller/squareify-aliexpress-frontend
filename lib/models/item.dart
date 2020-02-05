@@ -1,32 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
-import '../controllers/itemmapper.dart' as ItemMapper;
+import 'package:squareneumorphic/models/aliItem.dart';
 
-class Item {
+abstract class Item {
   @required
   final String _id;
   String _name;
   String _description;
-  List<String> _potentialImageurls;
   List<Option> _options;
 
-  Item(
-      {String id,
-      String description,
-      String name,
-      List<Option> options,
-      List<String> potentialImageurls})
+  Item({String id, String name, String description, List<Option> options})
       : _id = id,
-        _description = description,
         _name = name,
-        _options = options,
-        _potentialImageurls = potentialImageurls;
-
-  // Item(String id) : _id = id;
-
-  void get() {}
+        _description = description,
+        _options = options;
 
   String get id => _id;
   // set id(String id) => _id = id;
@@ -40,10 +26,6 @@ class Item {
   List<Option> get options => _options;
   set options(List<Option> options) => _options = options;
 
-  List<String> get images => _potentialImageurls;
-
-  static Future<Item> load(String id) => ItemMapper.getAliExpressItemById(id);
-
   void log() {
     print('id: $_id \n name: $name \n desc: $description \n options: $options');
   }
@@ -51,30 +33,6 @@ class Item {
   @override
   String toString() {
     return 'id: $_id \n name: $name \n desc: $description \n options: $options';
-  }
-
-  static List<Option> parseOptions(optionsJson) {
-    var listOfOptions = optionsJson['variationType'] as List;
-    return listOfOptions.map((opt) => Option.fromJson(opt)).toList();
-  }
-
-  static List<String> parseImageUrls(imagesJson) {
-    var listofImages = imagesJson as List;
-    return listofImages.map<String>((opt) => opt).toList();
-  }
-
-  factory Item.fromJson(Map<String, dynamic> json) {
-    // print('${json['id']}');
-    // print('${json['name']}');
-    // print('${json['description']}');
-    // print('${json['variationType']}');
-
-    return Item(
-        id: json['id'].toString(),
-        name: json['name'] as String,
-        description: json['description'] as String,
-        options: parseOptions(json),
-        potentialImageurls: parseImageUrls(json['images']));
   }
 }
 

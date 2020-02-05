@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:squareneumorphic/models/item.dart';
+import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/pendingItem.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
@@ -16,28 +17,25 @@ class ItemView extends StatefulWidget {
 }
 
 class ItemViewState extends State<ItemView> {
-  Future<Item> _itemFuture;
-  Item _item;
+  AliItem _item;
   @override
   void initState() {
     super.initState();
-    _itemFuture = Item.load(widget._itemId);
   }
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<Item>(
-      future: _itemFuture,
+  Widget build(BuildContext context) => FutureBuilder<AliItem>(
+      future: AliItem.load(widget._itemId),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          Item loadedItem = snapshot.data;
-          // setState(() => _item = loadedItem);
-          print('iamges: ${loadedItem.images}');
+          _item = snapshot.data;
+          print('iamges: ${_item.images}');
           return Container(
               width: mainTileWidth(context) * 0.8,
               child: Column(
                 children: <Widget>[
                   ItemImageBar(
-                    imageUrls: loadedItem.images,
+                    imageUrls: _item.images,
                   ),
                   Row(
                     children: <Widget>[
@@ -49,7 +47,7 @@ class ItemViewState extends State<ItemView> {
                       Expanded(
                           flex: 5,
                           child: Container(
-                            child: Text(loadedItem.name),
+                            child: Text(_item.name),
                           )),
                     ],
                   ),
@@ -65,11 +63,11 @@ class ItemViewState extends State<ItemView> {
                       Expanded(
                           flex: 5,
                           child: Container(
-                            child: Text(loadedItem.description),
+                            child: Text(_item.description),
                           )),
                     ],
                   ),
-                  ...buildOptionBarList(loadedItem.options)
+                  ...buildOptionBarList(_item.options)
                 ],
               ));
           // return Container(
