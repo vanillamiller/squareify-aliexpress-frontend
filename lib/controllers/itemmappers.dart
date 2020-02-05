@@ -10,7 +10,7 @@ Future<Item> getAliExpressItemById(String id) async {
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.
     Map<String, dynamic> body = json.decode(response.body);
-    print(body);
+    // print(body);
     return Item.fromJson(body);
   } else {
     print('errors');
