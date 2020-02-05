@@ -38,12 +38,17 @@ class Item {
   set description(String desc) => _description = desc;
 
   List<Option> get options => _options;
-  set options(List<Option> optiions) => _options = options;
+  set options(List<Option> options) => _options = options;
 
   static Future<Item> load(String id) => ItemMapper.getAliExpressItemById(id);
 
   void log() {
-    print('id: $_id, name: $name, desc: $description, options: $options');
+    print('id: $_id \n name: $name \n desc: $description \n options: $options');
+  }
+
+  @override
+  String toString() {
+    return 'id: $_id \n name: $name \n desc: $description \n options: $options';
   }
 
   static List<Option> parseOptions(optionsJson) {

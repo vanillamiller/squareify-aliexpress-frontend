@@ -7,6 +7,7 @@ import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
 import '../images.dart';
+import 'itemview.dart';
 
 class DashboardView extends StatelessWidget {
   static const path = '/dashboard';
@@ -95,12 +96,7 @@ class AliItemView extends StatelessWidget {
         ),
       );
 }
-// Card squareItemCard(BuildContext context, BoxConstraints constraints) =>
-//     Card(child: SizedBox(
-//       child : Container
-//     ));
 
-// Create a Form widget.
 class AliUrlForm extends StatefulWidget {
   @override
   AliUrlFormState createState() => AliUrlFormState();
@@ -167,36 +163,4 @@ class AliUrlFormState extends State<AliUrlForm> {
       ),
     );
   }
-}
-
-class ItemView extends StatefulWidget {
-  final String _itemId;
-  ItemView({Key key, String itemId})
-      : _itemId = itemId,
-        super(key: key);
-  @override
-  State<StatefulWidget> createState() => ItemViewState();
-}
-
-class ItemViewState extends State<ItemView> {
-  Future<Item> _item;
-
-  @override
-  void initState() {
-    super.initState();
-    _item = Item.load(widget._itemId);
-  }
-
-  @override
-  Widget build(BuildContext context) => FutureBuilder<Item>(
-      future: _item,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data.name);
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-
-        return CircularProgressIndicator();
-      });
 }
