@@ -20,11 +20,18 @@ class AliItem extends Item {
 
   List<String> get images => _potentialImageurls;
 
+  SquareItem toSquareItem(String selectedImage) => new SquareItem(
+      id: this.id,
+      name: this.name,
+      description: this.description,
+      options: this.options,
+      imageUrl: selectedImage);
+
   static Future<AliItem> load(String id) =>
       ItemMapper.getAliExpressItemById(id);
 
   static List<Option> parseOptions(optionsJson) {
-    var listOfOptions = optionsJson['variationType'] as List;
+    var listOfOptions = optionsJson['options'] as List;
     return listOfOptions.map((opt) => Option.fromJson(opt)).toList();
   }
 

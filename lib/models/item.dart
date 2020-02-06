@@ -54,8 +54,13 @@ class Option {
         .toList();
   }
 
+  Map<String, dynamic> toSquareJson() => {
+        "name": this._name,
+        "values": _values.map((val) => val.toSquareJson()).toList()
+      };
+
   factory Option.fromJson(Map<String, dynamic> json) => new Option(
-      name: json['name'], values: parseOptionInformation(json['variant']));
+      name: json['name'], values: parseOptionInformation(json['values']));
 }
 
 class OptionInfo {
@@ -68,6 +73,8 @@ class OptionInfo {
 
   get name => _name;
   get image => _image;
+
+  Map<String, dynamic> toSquareJson() => {"name": this._name};
 
   factory OptionInfo.fromJson(Map<String, dynamic> json) =>
       new OptionInfo(name: json['name'], image: json['image']);

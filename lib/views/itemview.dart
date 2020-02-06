@@ -29,7 +29,7 @@ class ItemViewState extends State<ItemView> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _item = snapshot.data;
-          print('iamges: ${_item.images}');
+          print(_item.toSquareItem('selectedImage').toJson());
           return Container(
               width: mainTileWidth(context) * 0.8,
               child: Column(

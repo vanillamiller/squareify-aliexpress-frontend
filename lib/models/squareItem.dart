@@ -10,4 +10,12 @@ class SquareItem extends Item {
       String imageUrl})
       : _imageUrl = imageUrl,
         super(id: id, name: name, description: description, options: options);
+
+  Map<String, dynamic> toJson() => {
+        "id": this.id,
+        "name": this.name,
+        "desc": this.description,
+        "image": this._imageUrl,
+        "options": options.map((option) => option.toSquareJson()).toList()
+      };
 }
