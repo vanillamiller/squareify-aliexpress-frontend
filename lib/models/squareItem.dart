@@ -1,4 +1,5 @@
 import 'item.dart';
+import '../controllers/itemmapper.dart' as ItemMapper;
 
 class SquareItem extends Item {
   String _imageUrl;
@@ -18,4 +19,6 @@ class SquareItem extends Item {
         "image": this._imageUrl,
         "options": options.map((option) => option.toSquareJson()).toList()
       };
+
+  Future<SquareItem> post() => ItemMapper.postItemToSquare(this);
 }

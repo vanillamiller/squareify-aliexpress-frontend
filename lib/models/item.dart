@@ -27,7 +27,8 @@ abstract class Item {
   set options(List<Option> options) => _options = options;
 
   void log() {
-    print('id: $_id \n name: $name \n desc: $description \n options: $options');
+    print(
+        'LOGGING ITEM: id: $_id \n name: $name \n desc: $description \n options: $options');
   }
 
   @override
