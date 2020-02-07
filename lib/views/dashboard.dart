@@ -44,10 +44,10 @@ class Dashboard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Container(
-                height: mainTileHeight(context),
-                width: mainTileWidth(context),
-                decoration: neumorphicBox,
-              ),
+                  height: mainTileHeight(context),
+                  width: mainTileWidth(context),
+                  decoration: neumorphicBox,
+                  child: SquareItemView()),
             )
           ],
         ),
@@ -172,8 +172,6 @@ class SquareItemView extends StatelessWidget {
   Widget build(BuildContext context) => Container(
       child: Consumer<AddedItems>(
           builder: (context, addedItems, child) => Column(
-                children: <Text>[
-                  ...addedItems.addedItems.map((i) => Text(i.name)).toList()
-                ],
+                children: addedItems.toText(),
               )));
 }

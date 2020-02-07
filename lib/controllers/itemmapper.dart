@@ -24,7 +24,6 @@ Future<AliItem> getAliExpressItemById(String id) async {
 }
 
 Future<SquareItem> postItemToSquare(SquareItem item) async {
-  // print('itme to json is : ' + '${item.toJson()}');
   String reqBody = jsonEncode({"itemFromClient": item.toJson()});
   Map<String, String> reqHeaders = {
     HttpHeaders.contentTypeHeader: 'application/json',
@@ -33,12 +32,10 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
   return http
       .post(Uri.parse('$url/dev/items'), body: reqBody, headers: reqHeaders)
       .then((res) {
-    print('something came back');
     if (res.statusCode == 200) {
-      print("in post success: " + res.body);
       return item;
     } else {
-      print("the body of the respoinse is: " + res.body);
+      print('response stat: ${res.statusCode} and the body is : ${res.body}');
       throw Exception('could not send this item to your Square Catalogue');
     }
   }).catchError((e) {

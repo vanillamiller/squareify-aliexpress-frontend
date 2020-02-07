@@ -31,69 +31,78 @@ class ItemViewState extends State<ItemView> {
   Widget build(BuildContext context) {
     final _addedItemsProvider = Provider.of<AddedItems>(context);
 
-    return FutureBuilder<AliItem>(
-        future: AliItem.load(widget._itemId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            _item = snapshot.data;
-            print(_item.toSquareItem('selectedImage').toJson());
-            return Container(
-                width: mainTileWidth(context) * 0.8,
-                child: Column(
-                  children: <Widget>[
-                    ItemImageBar(
-                      imageUrls: _item.images,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            flex: 1,
-                            child: Container(
-                              child: Text('Name: '),
-                            )),
-                        Expanded(
-                            flex: 5,
-                            child: Container(
-                              child: Text(_item.name),
-                            )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                            flex: 1,
-                            child: Container(
-                              child: Text('Description: '),
-                            )),
-                        Expanded(
-                            flex: 5,
-                            child: Container(
-                              child: Text(_item.description),
-                            )),
-                      ],
-                    ),
-                    ...buildOptionBarList(_item.options),
-                    RaisedButton(onPressed: () async {
-                      print('button pressed');
-                      try {
-                        SquareItem _sentItem =
-                            await _item.toSquareItem('placeholed').post();
-                        _addedItemsProvider.addItem(_sentItem);
-                        print(_sentItem.name);
-                      } catch (e) {
-                        Text('error was: $e');
-                      }
-                    })
-                  ],
-                ));
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
+    return Container(
+      child: Column(
+        children: <Widget>[
+          FutureBuilder<AliItem>(
+              future: AliItem.load(widget._itemId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  _item = snapshot.data;
+                  print(_item.toSquareItem('selectedImage').toJson());
+                  return Container(
+                      width: mainTileWidth(context) * 0.8,
+                      child: Column(
+                        children: <Widget>[
+                          ItemImageBar(
+                            imageUrls: _item.images,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Text('Name: '),
+                                  )),
+                              Expanded(
+                                  flex: 5,
+                                  child: Container(
+                                    child: Text(_item.name),
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Text('Description: '),
+                                  )),
+                              Expanded(
+                                  flex: 5,
+                                  child: Container(
+                                    child: Text(_item.description),
+                                  )),
+                            ],
+                          ),
+                          ...buildOptionBarList(_item.options),
+                        ],
+                      ));
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
 
-          return CircularProgressIndicator();
-        });
+                return CircularProgressIndicator();
+              }),
+          RaisedButton(onPressed: () async {
+            print('button pressed');
+            try {
+              _item
+                  .toSquareItem('placeholed')
+                  .post()
+                  .then((itemSuccessfullySent) {
+                itemSuccessfullySent.log();
+                _addedItemsProvider.addItem(itemSuccessfullySent);
+              });
+            } catch (e) {
+              Text('error was: $e');
+            }
+          })
+        ],
+      ),
+    );
   }
 }
 
