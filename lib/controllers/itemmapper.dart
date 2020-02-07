@@ -1,15 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:squareneumorphic/models/aliItem.dart';
+import 'package:squareneumorphic/models/squareItem.dart';
 
 final String url =
     "https://7ec8t75vad.execute-api.ap-southeast-2.amazonaws.com";
 
 Future<AliItem> getAliExpressItemById(String id) async {
   print('in item net');
-  final response = await http.get(
-      'https://7ec8t75vad.execute-api.ap-southeast-2.amazonaws.com/dev/items?item=$id');
-  print("response is: $response");
+  final response = await http.get('$url/dev/items?item=$id');
+
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.
     Map<String, dynamic> body = json.decode(response.body);
@@ -20,4 +21,28 @@ Future<AliItem> getAliExpressItemById(String id) async {
     // If that response was not OK, throw an error.
     throw Exception('Failed to load item');
   }
+}
+
+Future<SquareItem> postItemToSquare(SquareItem item) async {
+  // print('itme to json is : ' + '${item.toJson()}');
+  String reqBody = jsonEncode({"itemFromClient": item.toJson()});
+  Map<String, String> reqHeaders = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+  };
+
+  return http
+      .post(Uri.parse('$url/dev/items'), body: reqBody, headers: reqHeaders)
+      .then((res) {
+    print('something came back');
+    if (res.statusCode == 200) {
+      print("in post success: " + res.body);
+      return item;
+    } else {
+      print("the body of the respoinse is: " + res.body);
+      throw Exception('could not send this item to your Square Catalogue');
+    }
+  }).catchError((e) {
+    print('more errors: $e');
+    throw e;
+  });
 }

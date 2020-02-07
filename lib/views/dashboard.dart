@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/pendingItem.dart';
 import 'package:squareneumorphic/utils.dart';
@@ -25,28 +26,31 @@ double mainTileHeight(BuildContext context) => screenHeight(context) - 48;
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
-          child: Row(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(32),
-            child: Container(
-                // constraints: mainTileConstraints(context),
+          child: ChangeNotifierProvider(
+        create: (context) => AddedItems(),
+        child: Row(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(32),
+              child: Container(
+                  // constraints: mainTileConstraints(context),
+                  height: mainTileHeight(context),
+                  width: mainTileWidth(context),
+                  decoration: neumorphicBox,
+                  child: AliItemView()),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: Container(
                 height: mainTileHeight(context),
                 width: mainTileWidth(context),
                 decoration: neumorphicBox,
-                child: AliItemView()),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(32),
-            child: Container(
-              height: mainTileHeight(context),
-              width: mainTileWidth(context),
-              decoration: neumorphicBox,
-            ),
-          )
-        ],
+              ),
+            )
+          ],
+        ),
       ));
 }
 
@@ -161,4 +165,15 @@ class AliUrlFormState extends State<AliUrlForm> {
       ),
     );
   }
+}
+
+class SquareItemView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+      child: Consumer<AddedItems>(
+          builder: (context, addedItems, child) => Column(
+                children: <Text>[
+                  ...addedItems.addedItems.map((i) => Text(i.name)).toList()
+                ],
+              )));
 }

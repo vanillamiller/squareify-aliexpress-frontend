@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/item.dart';
+import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
 import 'dashboard.dart';
@@ -18,67 +21,80 @@ class ItemView extends StatefulWidget {
 
 class ItemViewState extends State<ItemView> {
   AliItem _item;
+  String _selectedImage;
   @override
   void initState() {
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<AliItem>(
-      future: AliItem.load(widget._itemId),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          _item = snapshot.data;
-          print(_item.toSquareItem('selectedImage').toJson());
-          return Container(
-              width: mainTileWidth(context) * 0.8,
-              child: Column(
-                children: <Widget>[
-                  ItemImageBar(
-                    imageUrls: _item.images,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Text('Name: '),
-                          )),
-                      Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Text(_item.name),
-                          )),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Text('Description: '),
-                          )),
-                      Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Text(_item.description),
-                          )),
-                    ],
-                  ),
-                  ...buildOptionBarList(_item.options)
-                ],
-              ));
-          // return Container(
-          //   color: Colors.green,
-          // );
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
+  Widget build(BuildContext context) {
+    final _addedItemsProvider = Provider.of<AddedItems>(context);
 
-        return CircularProgressIndicator();
-      });
+    return FutureBuilder<AliItem>(
+        future: AliItem.load(widget._itemId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _item = snapshot.data;
+            print(_item.toSquareItem('selectedImage').toJson());
+            return Container(
+                width: mainTileWidth(context) * 0.8,
+                child: Column(
+                  children: <Widget>[
+                    ItemImageBar(
+                      imageUrls: _item.images,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Text('Name: '),
+                            )),
+                        Expanded(
+                            flex: 5,
+                            child: Container(
+                              child: Text(_item.name),
+                            )),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Text('Description: '),
+                            )),
+                        Expanded(
+                            flex: 5,
+                            child: Container(
+                              child: Text(_item.description),
+                            )),
+                      ],
+                    ),
+                    ...buildOptionBarList(_item.options),
+                    RaisedButton(onPressed: () async {
+                      print('button pressed');
+                      try {
+                        SquareItem _sentItem =
+                            await _item.toSquareItem('placeholed').post();
+                        _addedItemsProvider.addItem(_sentItem);
+                        print(_sentItem.name);
+                      } catch (e) {
+                        Text('error was: $e');
+                      }
+                    })
+                  ],
+                ));
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+
+          return CircularProgressIndicator();
+        });
+  }
 }
 
 List<OptionBar> buildOptionBarList(List<Option> options) {
