@@ -88,20 +88,14 @@ class ItemViewState extends State<ItemView> {
               }),
           RaisedButton(onPressed: () async {
             print('button pressed');
-            try {
-              _item
-                  .toSquareItem(_addedItemsProvider.selectedImageUrl)
-                  .post()
-                  .then((itemSuccessfullySent) {
-                itemSuccessfullySent.log();
-                _addedItemsProvider.addItem(itemSuccessfullySent);
-              });
-            } on Exception catch (e) {
-              print('caught $e where it was supposed to!');
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('the error was$e'),
-              ));
-            }
+            _item
+                .toSquareItem(_addedItemsProvider.selectedImageUrl)
+                .post()
+                .then((itemSuccessfullySent) {
+              itemSuccessfullySent.log();
+              _addedItemsProvider.addItem(itemSuccessfullySent);
+            }).catchError((e) => Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(e))));
           })
         ],
       ),

@@ -37,7 +37,7 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
       return item;
     } else {
       print('response stat: ${res.statusCode} and the body is : ${res.body}');
-      throw Exception('could not send this item to your Square Catalogue');
+      throw ('could not send item to square');
     }
   }).catchError((e) {
     throw e;
