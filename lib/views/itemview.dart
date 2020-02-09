@@ -90,14 +90,17 @@ class ItemViewState extends State<ItemView> {
             print('button pressed');
             try {
               _item
-                  .toSquareItem('placeholed')
+                  .toSquareItem(_addedItemsProvider.selectedImageUrl)
                   .post()
                   .then((itemSuccessfullySent) {
                 itemSuccessfullySent.log();
                 _addedItemsProvider.addItem(itemSuccessfullySent);
               });
-            } catch (e) {
-              Text('error was: $e');
+            } on Exception catch (e) {
+              print('caught $e where it was supposed to!');
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('the error was$e'),
+              ));
             }
           })
         ],
@@ -136,8 +139,12 @@ class ItemImage extends StatelessWidget {
   final String _url;
   ItemImage({String url}) : _url = url;
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
+  Widget build(BuildContext context) {
+    final _addedItem = Provider.of<AddedItems>(context);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () => {_addedItem.setImageUrl = this._url},
         child: SizedBox(
           width: 120,
           child: Image.network(
@@ -145,7 +152,9 @@ class ItemImage extends StatelessWidget {
             fit: BoxFit.fitWidth,
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class OptionBar extends StatelessWidget {

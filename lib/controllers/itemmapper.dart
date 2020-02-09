@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
@@ -39,7 +40,6 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
       throw Exception('could not send this item to your Square Catalogue');
     }
   }).catchError((e) {
-    print('more errors: $e');
     throw e;
   });
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/pendingItem.dart';
+import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
@@ -174,4 +175,23 @@ class SquareItemView extends StatelessWidget {
           builder: (context, addedItems, child) => Column(
                 children: addedItems.toText(),
               )));
+}
+
+class SquareItemTile extends StatelessWidget {
+  final SquareItem _item;
+
+  SquareItemTile({SquareItem item}) : _item = item;
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.all(8),
+        child: Container(
+            decoration: neumorphicBox,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[],
+                )
+              ],
+            )),
+      );
 }
