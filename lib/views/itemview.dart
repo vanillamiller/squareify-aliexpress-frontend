@@ -63,16 +63,9 @@ class ItemViewState extends State<ItemView> {
                               Expanded(
                                   flex: 5,
                                   child: Container(
-                                    child: TextFormField(
-                                      controller:
-                                          _itemController.nameController,
-                                      maxLines: null,
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(0xff2e3b4e)))),
-                                    ),
-                                  )),
+                                      child: ItemInputField(
+                                          controller:
+                                              _itemController.nameController))),
                             ],
                           ),
                           Row(
@@ -86,8 +79,9 @@ class ItemViewState extends State<ItemView> {
                                   )),
                               Expanded(
                                   flex: 5,
-                                  child: Container(
-                                    child: Text(_item.description),
+                                  child: ItemInputField(
+                                    controller:
+                                        _itemController.descriptionController,
                                   )),
                             ],
                           ),
@@ -102,6 +96,8 @@ class ItemViewState extends State<ItemView> {
               }),
           RaisedButton(onPressed: () async {
             print('button pressed');
+            _item.name = _itemController.nameController.text;
+            _item.description = _itemController.descriptionController.text;
             _item
                 .toSquareItem(_addedItemsProvider.selectedImageUrl)
                 .post()
@@ -210,5 +206,19 @@ class ChoiceTile extends StatelessWidget {
             child: Center(
               child: Text(_choiceName),
             )),
+      );
+}
+
+class ItemInputField extends StatelessWidget {
+  TextEditingController _controller;
+  ItemInputField({TextEditingController controller}) : _controller = controller;
+
+  @override
+  Widget build(BuildContext context) => TextFormField(
+        controller: _controller,
+        maxLines: null,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xff2e3b4e)))),
       );
 }
