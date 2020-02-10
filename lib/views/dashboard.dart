@@ -167,7 +167,7 @@ class SquareItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
       child: Consumer<AddedItems>(
-          builder: (context, addedItems, child) => Column(
+          builder: (context, addedItems, child) => ListView(
                 children: addedItems.toTile(),
               )));
 }
@@ -195,16 +195,22 @@ class SquareItemTile extends StatelessWidget {
                                 fit: BoxFit.fitWidth)
                             // child: Text(_item.imageUrl)
                             ),
+                        SizedBox(
+                          width: constraints.maxWidth * 0.1,
+                        ),
                         Container(
-                            width: constraints.maxWidth * 0.8,
+                            width: constraints.maxWidth * 0.7,
                             child: Text(_item.name))
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        Container(child: Text(_item.description))
+                        Container(
+                            width: constraints.maxWidth,
+                            child: Text(_item.description))
                       ],
-                    )
+                    ),
+                    Row()
                   ],
                 ),
               ),

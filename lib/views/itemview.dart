@@ -21,7 +21,7 @@ class ItemView extends StatefulWidget {
 
 class ItemViewState extends State<ItemView> {
   AliItem _item;
-  String _selectedImage;
+  AliItem _pendingItem;
   @override
   void initState() {
     super.initState();
