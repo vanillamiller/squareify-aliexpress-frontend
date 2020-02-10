@@ -84,7 +84,7 @@ class AliItemView extends StatelessWidget {
                       Center(
                           child: Consumer<SearchedItem>(
                         builder: (context, pendingItem, child) =>
-                            pendingItem.itemId == 'NOTHING'
+                            pendingItem.itemId == ''
                                 ? SizedBox(
                                     height: 300,
                                     child: placeholderBoxImage(context))

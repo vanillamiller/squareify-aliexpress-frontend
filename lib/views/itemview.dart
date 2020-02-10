@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/item.dart';
+import 'package:squareneumorphic/models/itemInputControllers.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
@@ -22,9 +23,11 @@ class ItemView extends StatefulWidget {
 class ItemViewState extends State<ItemView> {
   AliItem _item;
   AliItem _pendingItem;
+  ItemInputControllers _itemController;
   @override
   void initState() {
     super.initState();
+    _itemController = new ItemInputControllers();
   }
 
   @override
@@ -39,6 +42,9 @@ class ItemViewState extends State<ItemView> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   _item = snapshot.data;
+                  _itemController.nameController.text = _item.name;
+                  _itemController.descriptionController.text =
+                      _item.description;
                   print(_item.toSquareItem('selectedImage').toJson());
                   return Container(
                       width: mainTileWidth(context) * 0.8,
@@ -57,7 +63,15 @@ class ItemViewState extends State<ItemView> {
                               Expanded(
                                   flex: 5,
                                   child: Container(
-                                    child: Text(_item.name),
+                                    child: TextFormField(
+                                      controller:
+                                          _itemController.nameController,
+                                      maxLines: null,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xff2e3b4e)))),
+                                    ),
                                   )),
                             ],
                           ),
