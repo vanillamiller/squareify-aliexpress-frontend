@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
-import 'package:squareneumorphic/models/pendingItem.dart';
+import 'package:squareneumorphic/models/searchedItem.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/widgets.dart';
@@ -61,7 +61,7 @@ class AliItemView extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) => Padding(
           padding: const EdgeInsets.all(16),
           child: ChangeNotifierProvider(
-            create: (context) => PendingItem(),
+            create: (context) => SearchedItem(),
             child: ListView(children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -82,9 +82,9 @@ class AliItemView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Center(
-                          child: Consumer<PendingItem>(
+                          child: Consumer<SearchedItem>(
                         builder: (context, pendingItem, child) =>
-                            pendingItem.itemId == null
+                            pendingItem.itemId == 'NOTHING'
                                 ? SizedBox(
                                     height: 300,
                                     child: placeholderBoxImage(context))
@@ -108,11 +108,6 @@ class AliUrlForm extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class AliUrlFormState extends State<AliUrlForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   var _urlInputController = TextEditingController();
 
@@ -122,7 +117,7 @@ class AliUrlFormState extends State<AliUrlForm> {
 
   @override
   Widget build(BuildContext context) {
-    final _pendingItemProvider = Provider.of<PendingItem>(context);
+    final _searchedItemProvider = Provider.of<SearchedItem>(context);
     // Build a Form widget using the _formKey created above.
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Form(
@@ -155,7 +150,7 @@ class AliUrlFormState extends State<AliUrlForm> {
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     String text = _urlInputController.text;
-                    _pendingItemProvider.itemId = getItemId(text);
+                    _searchedItemProvider.itemId = getItemId(text);
                   }
                 },
                 child: Text('Submit'),
@@ -173,7 +168,7 @@ class SquareItemView extends StatelessWidget {
   Widget build(BuildContext context) => Container(
       child: Consumer<AddedItems>(
           builder: (context, addedItems, child) => Column(
-                children: addedItems.toText(),
+                children: addedItems.toTile(),
               )));
 }
 
@@ -186,12 +181,33 @@ class SquareItemTile extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Container(
             decoration: neumorphicBox,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[],
-                )
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) =>
+                    Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Container(
+                            width: constraints.maxWidth * 0.2,
+                            child: Image.network(_item.imageUrl,
+                                fit: BoxFit.fitWidth)
+                            // child: Text(_item.imageUrl)
+                            ),
+                        Container(
+                            width: constraints.maxWidth * 0.8,
+                            child: Text(_item.name))
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(child: Text(_item.description))
+                      ],
+                    )
+                  ],
+                ),
+              ),
             )),
       );
 }

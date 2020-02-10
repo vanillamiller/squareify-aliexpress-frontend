@@ -5,6 +5,9 @@ Image squareLogo(BuildContext context) => Image(
     image: AssetImage('assets/images/square.png'),
     fit: isLandscape(context) ? BoxFit.fitWidth : BoxFit.fitHeight);
 
+Image bonsai(BuildContext context) =>
+    Image(image: AssetImage('assets/images/bonsai.png'), fit: BoxFit.fitHeight);
+
 Image tinySquareLogo(BuildContext context) => Image(
     image: AssetImage('assets/images/squaretiny.png'),
     fit: isLandscape(context) ? BoxFit.fitWidth : BoxFit.fitHeight);

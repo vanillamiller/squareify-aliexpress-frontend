@@ -22,25 +22,23 @@ class Welcome extends StatelessWidget {
       width: screenWidth(context),
       child: Stack(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(flex: 4, child: Container()),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    child: Waves([
-                      [
-                        Color(0xFFFFD460),
-                        Color(0xFFFFCC75),
-                      ],
-                      [Color(0xffF07B3F), Color(0xffFF8E6C)],
-                      [
-                        Color(0xFFFF748C),
-                        Color(0xFFEA5455),
-                      ]
-                    ]),
-                  ))
-            ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: screenHeight(context) * 0.25,
+              width: screenWidth(context),
+              child: Waves([
+                [
+                  Color(0xFFFFD460),
+                  Color(0xFFFFCC75),
+                ],
+                [Color(0xffF07B3F), Color(0xffFF8E6C)],
+                [
+                  Color(0xFFFF748C),
+                  Color(0xFFEA5455),
+                ]
+              ]),
+            ),
           ),
           Column(
             children: <Widget>[

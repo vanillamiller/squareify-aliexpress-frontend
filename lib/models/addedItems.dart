@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
+import 'package:squareneumorphic/views/dashboard.dart';
 
 class AddedItems extends ChangeNotifier {
   List<SquareItem> _addedItems = new List<SquareItem>();
@@ -11,14 +12,16 @@ class AddedItems extends ChangeNotifier {
   String _selectedImageUrl = '';
   String get selectedImageUrl => _selectedImageUrl;
 
-  List<Text> toText() => _addedItems.map((item) => Text(item.name)).toList();
+  List<SquareItemTile> toTile() =>
+      _addedItems.map((item) => SquareItemTile(item: item)).toList();
 
   void addItem(SquareItem item) {
+    this._selectedImageUrl = '';
     _addedItems.add(item);
     notifyListeners();
   }
 
-  set setImageUrl(String url) {
+  set imageUrl(String url) {
     print('url = $url');
     _selectedImageUrl = url;
   }

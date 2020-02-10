@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class PendingItem extends ChangeNotifier {
+class SearchedItem extends ChangeNotifier {
   String _itemId;
   String get itemId => _itemId;
 

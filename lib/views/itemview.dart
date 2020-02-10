@@ -138,7 +138,7 @@ class ItemImage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () => {_addedItem.setImageUrl = this._url},
+        onTap: () => {_addedItem.imageUrl = this._url},
         child: SizedBox(
           width: 120,
           child: Image.network(
