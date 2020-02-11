@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:squareneumorphic/models/jwttoken.dart';
+import 'package:squareneumorphic/views/errorpage.dart';
 
 import 'models/webStorage.dart';
 
@@ -19,5 +20,7 @@ Widget authorize(Protected protectedRoute) => FutureBuilder(
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         return protectedRoute as Widget;
+      } else if (snapshot.hasError) {
+        return ErrorView();
       }
     });
