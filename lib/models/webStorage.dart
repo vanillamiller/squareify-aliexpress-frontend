@@ -7,8 +7,17 @@ import 'squareItem.dart';
 class WebStorage {
   static final Storage _localStorage = window.localStorage;
 
-  static Future saveToken(String token) async {
-    _localStorage['token'] = token;
+  static Future<bool> saveToken(String token) async {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+    try {
+      _localStorage['token'] = token;
+      return true;
+    } catch (e) {
+      throw Exception('could not store auth token in localstorage because $e');
+    }
   }
 
   static Future<String> getToken() async => _localStorage['token'];
