@@ -26,7 +26,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case ErrorView.path:
       return _getRoute(settings, ErrorView());
     case AuthRediect.path:
-      return _getRoute(settings, AuthRediect());
+      return _getRoute(
+          settings, AuthRediect(token: route._queryParameters['token']));
     default:
       return _getRoute(settings, ErrorView());
   }
