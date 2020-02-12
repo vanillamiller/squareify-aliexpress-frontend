@@ -5,6 +5,7 @@ import 'package:squareneumorphic/controllers/servicelocator.dart';
 import 'package:squareneumorphic/models/webStorage.dart';
 import 'package:squareneumorphic/views/dashboard.dart';
 import 'package:squareneumorphic/views/errorpage.dart';
+import 'dart:html' as html;
 
 class AuthRediect extends StatelessWidget {
   static const String path = '/authorize';
@@ -19,10 +20,28 @@ class AuthRediect extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               // locator<NavigationService>().navigateTo(DashboardView.path);
+
             } else if (snapshot.hasError) {
               // locator<NavigationService>().navigateTo(ErrorView.path);
             }
             return CircularProgressIndicator();
           })
-      : ErrorView();
+      : _Redirector();
+}
+
+class _Redirector extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // redirect(DashboardView.path);
+    return Scaffold(
+        body: Center(
+      child: RaisedButton(
+          onPressed: () =>
+              locator<NavigationService>().navigateTo(DashboardView.path)),
+    ));
+  }
+}
+
+Future redirect(String path) async {
+  await locator<NavigationService>().navigateTo(path);
 }
