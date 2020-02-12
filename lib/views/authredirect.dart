@@ -19,20 +19,19 @@ class AuthRediect extends StatelessWidget {
           future: WebStorage.saveToken(_token),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              // locator<NavigationService>().navigateTo(DashboardView.path);
-
             } else if (snapshot.hasError) {
+              redirect(DashboardView.path);
               // locator<NavigationService>().navigateTo(ErrorView.path);
             }
             return CircularProgressIndicator();
           })
-      : _Redirector();
+      : ErrorView();
 }
 
 class _Redirector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // redirect(DashboardView.path);
+    redirect(DashboardView.path);
     return Scaffold(
         body: Center(
       child: RaisedButton(
@@ -42,6 +41,7 @@ class _Redirector extends StatelessWidget {
   }
 }
 
-Future redirect(String path) async {
-  await locator<NavigationService>().navigateTo(path);
-}
+void redirect(String path) => Future.delayed(
+      Duration(seconds: 1),
+      () => locator<NavigationService>().navigateTo(DashboardView.path),
+    );
