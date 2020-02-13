@@ -20,7 +20,8 @@ Future<AliItem> getAliExpressItemById(String id) async {
   http.Response response;
 
   final Map<String, String> headers = {
-    HttpHeaders.authorizationHeader: encodedToken
+    HttpHeaders.authorizationHeader: encodedToken,
+    // HttpHeaders.contentTypeHeader: "application/json"
   };
   // print(headers);
   try {
@@ -36,8 +37,10 @@ Future<AliItem> getAliExpressItemById(String id) async {
     // print(body);
     return AliItem.fromJson(body);
   } else {
-    print('errors');
     // If that response was not OK, throw an error.
+    print('+++++++++++++++++++++ IN ITEMMAPPED GET +++++++++++++++++++++++++');
+    print('${response.statusCode}');
+    print('${response.body}');
     throw Exception('Failed to load item');
   }
 }
