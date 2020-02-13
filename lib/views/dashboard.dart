@@ -183,38 +183,38 @@ class SquareItemTile extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.all(8),
         child: Container(
-            decoration: neumorphicBox,
+            // decoration: neumorphicBox,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) =>
-                    Column(
+          padding: const EdgeInsets.all(8.0),
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) =>
+                Column(
+              children: <Widget>[
+                Row(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            width: constraints.maxWidth * 0.2,
-                            child: Image.network(_item.imageUrl,
-                                fit: BoxFit.fitWidth)),
-                        SizedBox(
-                          width: constraints.maxWidth * 0.1,
-                        ),
-                        Container(
-                            width: constraints.maxWidth * 0.7,
-                            child: Text(_item.name))
-                      ],
+                    Container(
+                        width: constraints.maxWidth * 0.2,
+                        child: Image.network(_item.imageUrl,
+                            fit: BoxFit.fitWidth)),
+                    SizedBox(
+                      width: constraints.maxWidth * 0.1,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            width: constraints.maxWidth,
-                            child: Text(_item.description))
-                      ],
-                    ),
-                    Row()
+                    Container(
+                        width: constraints.maxWidth * 0.7,
+                        child: Text(_item.name))
                   ],
                 ),
-              ),
-            )),
+                Row(
+                  children: <Widget>[
+                    Container(
+                        width: constraints.maxWidth,
+                        child: Text(_item.description))
+                  ],
+                ),
+                Row()
+              ],
+            ),
+          ),
+        )),
       );
 }
