@@ -20,14 +20,11 @@ Future<AliItem> getAliExpressItemById(String id) async {
     throw Exception('you do not have a valid token to access');
   }
   http.Response response;
-  // final Map<String, dynamic> decodedToken = parseJwt(encodedToken);
-  // print(decodedToken);
-  // final String encryptedSquareToken =
-  //     decodedToken['squareInfo']['access_token'];
+
   final Map<String, String> headers = {
     HttpHeaders.authorizationHeader: encodedToken
   };
-  print(headers);
+  // print(headers);
   try {
     response = await http.get('$url/dev/items?item=$id', headers: headers);
   } catch (e) {
@@ -52,8 +49,6 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
   String encodedToken;
   try {
     encodedToken = await WebStorage.getToken();
-    print(encodedToken);
-    print('tokenLoadedFine');
   } on Exception catch (e) {
     print('something went wrog with token loading');
     throw e;
@@ -62,12 +57,17 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
   String reqBody = jsonEncode({"itemFromClient": item.toJson()});
   Map<String, String> reqHeaders = {
     HttpHeaders.contentTypeHeader: 'application/json',
-    HttpHeaders.authorizationHeader: encodedToken
+    HttpHeaders.authorizationHeader: encodedToken,
   };
+  print(
+      '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+  print("headers are: $reqHeaders");
 
   return http
-      .post(Uri.parse('$url/dev/items'), body: reqBody, headers: reqHeaders)
+      .post('$url/dev/items', body: reqBody, headers: reqHeaders)
       .then((res) {
+    // TODO: remove
+    print(res.body);
     if (res.statusCode == 200) {
       return item;
     } else {
@@ -75,6 +75,7 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
       throw ('could not send item to square');
     }
   }).catchError((e) {
+    print('the stacktrace is: ${e.stackTrace}');
     throw e;
   });
 }
