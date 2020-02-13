@@ -4,8 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
 
-final String url =
-    "https://7ec8t75vad.execute-api.ap-southeast-2.amazonaws.com";
+final String url = "https://xxxxxxxxxx.execute-api.xxxxxxxxxx.amazonaws.com";
 
 Future<AliItem> getAliExpressItemById(String id) async {
   print('in item net');
