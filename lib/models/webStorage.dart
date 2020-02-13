@@ -23,7 +23,9 @@ class WebStorage {
     }
   }
 
-  static Future<String> getToken() async => _localStorage['token'];
+  static Future<String> getToken() async => _localStorage['token'] != null
+      ? _localStorage['token']
+      : throw Exception('there is no token!');
 
   static Future invalidate() async {
     _localStorage.remove('token');

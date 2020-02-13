@@ -32,7 +32,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
     response = await http.get('$url/dev/items?item=$id', headers: headers);
   } catch (e) {
     print(e);
-    throw Exception('$e');
+    throw e;
   }
 
   if (response.statusCode == 200) {
@@ -48,17 +48,21 @@ Future<AliItem> getAliExpressItemById(String id) async {
 }
 
 Future<SquareItem> postItemToSquare(SquareItem item) async {
+  print('in post');
   String encodedToken;
   try {
     encodedToken = await WebStorage.getToken();
-  } catch (e) {
-    throw Exception('you do not have a valid token to access');
+    print(encodedToken);
+    print('tokenLoadedFine');
+  } on Exception catch (e) {
+    print('something went wrog with token loading');
+    throw e;
   }
 
   String reqBody = jsonEncode({"itemFromClient": item.toJson()});
   Map<String, String> reqHeaders = {
     HttpHeaders.contentTypeHeader: 'application/json',
-    HttpHeaders.authorizationHeader: '$encodedToken'
+    HttpHeaders.authorizationHeader: encodedToken
   };
 
   return http

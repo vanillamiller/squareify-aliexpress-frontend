@@ -192,9 +192,7 @@ class SquareItemTile extends StatelessWidget {
                         Container(
                             width: constraints.maxWidth * 0.2,
                             child: Image.network(_item.imageUrl,
-                                fit: BoxFit.fitWidth)
-                            // child: Text(_item.imageUrl)
-                            ),
+                                fit: BoxFit.fitWidth)),
                         SizedBox(
                           width: constraints.maxWidth * 0.1,
                         ),

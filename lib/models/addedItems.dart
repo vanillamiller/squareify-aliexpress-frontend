@@ -20,8 +20,8 @@ class AddedItems extends ChangeNotifier {
       _addedItems.map((item) => SquareItemTile(item: item)).toList();
 
   void addItem(SquareItem item) {
+    print('adding item');
     this._selectedImageUrl = '';
-    this.currentItem = new AliItem();
     _addedItems.add(item);
     notifyListeners();
   }

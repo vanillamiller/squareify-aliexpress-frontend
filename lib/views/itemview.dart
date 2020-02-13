@@ -98,14 +98,20 @@ class ItemViewState extends State<ItemView> {
             print('button pressed');
             _item.name = _itemController.nameController.text;
             _item.description = _itemController.descriptionController.text;
+            print('+++++++ LOGGING ITEM ++++++++++');
+            _item.log();
             _item
                 .toSquareItem(_addedItemsProvider.selectedImageUrl)
                 .post()
                 .then((itemSuccessfullySent) {
+              print('here in the post return!!!!!!!!!!!!!!!!1');
               itemSuccessfullySent.log();
               _addedItemsProvider.addItem(itemSuccessfullySent);
-            }).catchError((e) => Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text(e))));
+            }).catchError((e) {
+              print('here in the post catch error $e');
+              return Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text('$e')));
+            });
           })
         ],
       ),
