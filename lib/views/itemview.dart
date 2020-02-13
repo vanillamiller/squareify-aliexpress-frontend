@@ -109,7 +109,6 @@ class ItemViewState extends State<ItemView> {
               _addedItemsProvider.addItem(itemSuccessfullySent);
             }).catchError((e) {
               print('here in the post catch error $e');
-              print(e.stackTrace);
               return Scaffold.of(context).showSnackBar(
                   SnackBar(content: Text('could not send item to square')));
             });

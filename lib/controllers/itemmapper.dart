@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:squareneumorphic/models/aliItem.dart';
-import 'package:squareneumorphic/models/jwttoken.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/models/webStorage.dart';
 
@@ -55,27 +53,26 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
   }
 
   String reqBody = jsonEncode({"itemFromClient": item.toJson()});
+  print(reqBody);
   Map<String, String> reqHeaders = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.authorizationHeader: encodedToken,
   };
-  print(
-      '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-  print("headers are: $reqHeaders");
-
   return http
       .post('$url/dev/items', body: reqBody, headers: reqHeaders)
       .then((res) {
-    // TODO: remove
-    print(res.body);
     if (res.statusCode == 200) {
+      print(
+          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+      print("body is: ${res.body}");
       return item;
     } else {
       print('response stat: ${res.statusCode} and the body is : ${res.body}');
       throw ('could not send item to square');
     }
   }).catchError((e) {
-    print('the stacktrace is: ${e.stackTrace}');
+    print('+++++++++++++++++ the eroor was ++++++++++++++++++');
+    print('$e');
     throw e;
   });
 }
