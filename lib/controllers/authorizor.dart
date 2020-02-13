@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:squareneumorphic/models/jwttoken.dart';
 import 'package:squareneumorphic/views/errorpage.dart';
 
@@ -25,5 +26,6 @@ Widget authorizationEncorcer(Widget protectedRoute, RouteSettings settings) {
         } else if (snapshot.hasError) {
           return ErrorView();
         }
+        return CircularProgressIndicator();
       });
 }

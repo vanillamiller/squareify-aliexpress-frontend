@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:squareneumorphic/controllers/authorizor.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/searchedItem.dart';
@@ -11,8 +12,10 @@ import 'package:squareneumorphic/views/widgets.dart';
 import '../images.dart';
 import 'itemview.dart';
 
-class DashboardView extends StatelessWidget {
+class DashboardView extends StatelessWidget with Protected {
   static const path = '/dashboard';
+  String get scope => 'items';
+
   @override
   Widget build(BuildContext context) => SafeArea(
       child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[100]));
