@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:squareneumorphic/controllers/authorizor.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
+import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/models/searchedItem.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/utils.dart';
@@ -208,10 +209,53 @@ class SquareItemTile extends StatelessWidget {
                         child: Text(_item.description))
                   ],
                 ),
-                Row()
+                Row(
+                  children: <Widget>[
+                    SquareItemOptionsChipsBar(
+                      options: _item.options,
+                    )
+                  ],
+                )
               ],
             ),
           ),
+        ),
+      );
+}
+
+class SquareItemOptionsChipsBar extends StatelessWidget {
+  SquareItemOptionsChipsBar({List<Option> options}) : _options = options;
+  @required
+  final List<Option> _options;
+
+  Container buildOptionBar(Option option) => Container(
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[Text(option.name)],
+            ),
+            Wrap(
+              children: option.values
+                  .map<Padding>((value) => Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Chip(label: Text(value.name)),
+                      ))
+                  .toList(),
+            ),
+          ],
+        ),
+      );
+
+  Widget optionBarFactory(List<Option> options) => Column(
+      children:
+          options.map<Container>((option) => buildOptionBar(option)).toList());
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: optionBarFactory(_options),
         ),
       );
 }

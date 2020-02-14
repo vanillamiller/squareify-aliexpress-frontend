@@ -69,7 +69,14 @@ class ItemViewState extends State<ItemView> {
                               controller: _itemController.descriptionController,
                             ),
                           ),
-                          ...buildOptionBarList(_item.options),
+                          ItemInputFieldContainer(
+                            title: 'Options',
+                            child: Column(
+                              children: <OptionBar>[
+                                ...buildOptionBarList(_item.options),
+                              ],
+                            ),
+                          ),
                         ],
                       ));
                 } else if (snapshot.hasError) {
@@ -185,15 +192,20 @@ class OptionBar extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Container(
+          width: mainTileWidth(context) * 0.75,
           padding: EdgeInsets.symmetric(vertical: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Text(_option.name)),
+                      child: Text(
+                        _option.name,
+                        style: subHeading2(context),
+                      )),
                 ],
               ),
               Wrap(
