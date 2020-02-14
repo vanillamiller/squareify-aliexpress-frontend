@@ -11,14 +11,12 @@ abstract class Protected {
   Future<bool> authorize() async {
     return WebStorage.getToken().then((token) {
       Map<String, dynamic> jsondecodedjwt = parseJwt(token);
-      print(
-          '++++++++++++++++ IN AUTHORIZER ${jsondecodedjwt['scopes']} +++++++++++++++++++++++++++');
       List<String> scopesList = jsondecodedjwt['scopes'].cast<String>();
       print(scopesList.contains(this.scope));
       return scopesList.contains(this.scope);
     }).catchError((e) {
       print('$e');
-      return false;
+      throw e;
     });
   }
 }
