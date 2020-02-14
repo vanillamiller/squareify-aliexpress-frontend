@@ -182,13 +182,10 @@ class SquareItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.all(8),
-        child: Container(
-            // decoration: neumorphicBox,
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) =>
-                Column(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) =>
+              Container(
+            child: Column(
               children: <Widget>[
                 Row(
                   children: <Widget>[
@@ -215,6 +212,6 @@ class SquareItemTile extends StatelessWidget {
               ],
             ),
           ),
-        )),
+        ),
       );
 }

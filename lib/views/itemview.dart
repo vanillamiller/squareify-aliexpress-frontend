@@ -7,6 +7,7 @@ import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/models/itemInputControllers.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
+import 'package:squareneumorphic/textstyles.dart';
 import 'package:squareneumorphic/views/widgets.dart';
 
 import 'dashboard.dart';
@@ -53,20 +54,11 @@ class ItemViewState extends State<ItemView> {
                           ItemImageBar(
                             imageUrls: _item.images,
                           ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    child: Text('Name: '),
-                                  )),
-                              Expanded(
-                                  flex: 5,
-                                  child: Container(
-                                      child: ItemInputField(
-                                          controller:
-                                              _itemController.nameController))),
-                            ],
+                          ItemInputFieldContainer(
+                            title: 'name',
+                            child: ItemInputField(
+                              controller: _itemController.nameController,
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -117,6 +109,38 @@ class ItemViewState extends State<ItemView> {
       ),
     );
   }
+}
+
+class ItemInputFieldContainer extends StatelessWidget {
+  ItemInputFieldContainer({String title, Widget child})
+      : _title = title,
+        _child = child;
+  final String _title;
+  final Widget _child;
+
+  @override
+  Widget build(BuildContext context) => Container(
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  _title,
+                  style: subHeading(context),
+                )
+              ],
+            ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[_child],
+            )
+          ],
+        ),
+      ));
 }
 
 List<OptionBar> buildOptionBarList(List<Option> options) {
@@ -220,11 +244,14 @@ class ItemInputField extends StatelessWidget {
   ItemInputField({TextEditingController controller}) : _controller = controller;
 
   @override
-  Widget build(BuildContext context) => TextFormField(
-        controller: _controller,
-        maxLines: null,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff2e3b4e)))),
+  Widget build(BuildContext context) => Container(
+        width: mainTileWidth(context) * 0.75,
+        child: TextFormField(
+          controller: _controller,
+          maxLines: null,
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xff2e3b4e)))),
+        ),
       );
 }
