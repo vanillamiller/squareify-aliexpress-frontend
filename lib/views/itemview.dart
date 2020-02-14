@@ -51,31 +51,23 @@ class ItemViewState extends State<ItemView> {
                       width: mainTileWidth(context) * 0.8,
                       child: Column(
                         children: <Widget>[
-                          ItemImageBar(
-                            imageUrls: _item.images,
+                          ItemInputFieldContainer(
+                            title: 'Images',
+                            child: ItemImageBar(
+                              imageUrls: _item.images,
+                            ),
                           ),
                           ItemInputFieldContainer(
-                            title: 'name',
+                            title: 'Name',
                             child: ItemInputField(
                               controller: _itemController.nameController,
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    child: Text('Description: '),
-                                  )),
-                              Expanded(
-                                  flex: 5,
-                                  child: ItemInputField(
-                                    controller:
-                                        _itemController.descriptionController,
-                                  )),
-                            ],
+                          ItemInputFieldContainer(
+                            title: 'Description',
+                            child: ItemInputField(
+                              controller: _itemController.descriptionController,
+                            ),
                           ),
                           ...buildOptionBarList(_item.options),
                         ],
@@ -153,16 +145,9 @@ class ItemImageBar extends StatelessWidget {
   ItemImageBar({List<String> imageUrls}) : _imageUrls = imageUrls;
   @override
   Widget build(BuildContext context) => Container(
-          child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[Text('Images')],
-          ),
-          Wrap(
-            children: <ItemImage>[...insertImages(_imageUrls)],
-          )
-        ],
+      width: mainTileWidth(context) * 0.75,
+      child: Wrap(
+        children: <ItemImage>[...insertImages(_imageUrls)],
       ));
 
   List<ItemImage> insertImages(List<String> imageurls) =>
