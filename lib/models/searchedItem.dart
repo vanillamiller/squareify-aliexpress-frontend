@@ -8,4 +8,9 @@ class SearchedItem extends ChangeNotifier {
     _itemId = itemid;
     notifyListeners();
   }
+
+  void removeItem() {
+    _itemId = '';
+    notifyListeners();
+  }
 }

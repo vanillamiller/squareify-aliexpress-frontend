@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
-import 'package:squareneumorphic/views/dashboard.dart';
+import 'package:squareneumorphic/views/squareitempane.dart';
 
 import 'aliItem.dart';
 
