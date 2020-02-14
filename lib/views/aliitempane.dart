@@ -81,7 +81,7 @@ class ItemViewState extends State<ItemView> {
   @override
   Widget build(BuildContext context) {
     final _addedItemsProvider = Provider.of<AddedItems>(context);
-
+    final _searchedItemProvider = Provider.of<SearchedItem>(context);
     return Container(
       child: Column(
         children: <Widget>[
@@ -133,20 +133,16 @@ class ItemViewState extends State<ItemView> {
                 return CircularProgressIndicator();
               }),
           RaisedButton(onPressed: () async {
-            print('button pressed');
             _item.name = _itemController.nameController.text;
             _item.description = _itemController.descriptionController.text;
-            // print('+++++++ LOGGING ITEM ++++++++++');
-            // _item.log();
             _item
                 .toSquareItem(_addedItemsProvider.selectedImageUrl)
                 .post()
                 .then((itemSuccessfullySent) {
-              print('here in the post return!!!!!!!!!!!!!!!!1');
               itemSuccessfullySent.log();
               _addedItemsProvider.addItem(itemSuccessfullySent);
+              _searchedItemProvider.removeItem();
             }).catchError((e) {
-              print('here in the post catch error $e');
               return Scaffold.of(context).showSnackBar(
                   SnackBar(content: Text('could not send item to square')));
             });
