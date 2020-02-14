@@ -139,12 +139,13 @@ class ItemViewState extends State<ItemView> {
                 .toSquareItem(_addedItemsProvider.selectedImageUrl)
                 .post()
                 .then((itemSuccessfullySent) {
-              itemSuccessfullySent.log();
               _addedItemsProvider.addItem(itemSuccessfullySent);
               _searchedItemProvider.removeItem();
             }).catchError((e) {
-              return Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('could not send item to square')));
+              return Scaffold.of(context).showSnackBar(SnackBar(
+                content: Center(child: Text('could not send item to square')),
+                backgroundColor: Colors.red,
+              ));
             });
           })
         ],
