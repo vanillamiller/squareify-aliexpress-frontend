@@ -3,15 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:squareneumorphic/controllers/authorizor.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
-import 'package:squareneumorphic/models/item.dart';
-import 'package:squareneumorphic/models/searchedItem.dart';
-import 'package:squareneumorphic/models/squareItem.dart';
-import 'package:squareneumorphic/textstyles.dart';
 import 'package:squareneumorphic/utils.dart';
 import 'package:squareneumorphic/views/squareitempane.dart';
 import 'package:squareneumorphic/views/widgets.dart';
-
-import '../images.dart';
 import 'aliitempane.dart';
 
 class DashboardView extends StatelessWidget with Protected {
