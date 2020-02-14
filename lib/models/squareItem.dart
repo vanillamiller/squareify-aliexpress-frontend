@@ -12,6 +12,8 @@ class SquareItem extends Item {
       : _imageUrl = imageUrl,
         super(id: id, name: name, description: description, options: options);
 
+  String get imageUrl => _imageUrl;
+
   Map<String, dynamic> toJson() => {
         "id": this.id,
         "name": this.name,

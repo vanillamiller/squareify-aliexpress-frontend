@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'router.dart' as Router;
+import 'package:squareneumorphic/controllers/servicelocator.dart';
+import 'controllers/navigationService.dart';
+import 'controllers/router.dart' as Router;
 
-void main() => runApp(MyApp());
+void main() {
+  setupLocator();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final _appTitle = 'AliExpress Squarifier';
@@ -10,5 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: _appTitle,
         onGenerateRoute: Router.generateRoute,
+        navigatorKey: locator<NavigationService>().navigatorKey,
       );
 }
