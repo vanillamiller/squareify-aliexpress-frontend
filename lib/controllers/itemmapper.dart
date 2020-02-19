@@ -34,7 +34,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the JSON.
     final Map<String, dynamic> body = json.decode(response.body);
-    // print(body);
+    AliItem.fromJson(body).log();
     return AliItem.fromJson(body);
   } else {
     // If that response was not OK, throw an error.

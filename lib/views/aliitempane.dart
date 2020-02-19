@@ -8,6 +8,7 @@ import 'package:squareneumorphic/models/aliItem.dart';
 import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/models/itemInputControllers.dart';
 import 'package:squareneumorphic/models/searchedItem.dart';
+import 'package:squareneumorphic/models/squareItem.dart';
 import '../images.dart';
 import 'package:squareneumorphic/textstyles.dart';
 import 'package:squareneumorphic/views/widgets.dart';
@@ -132,22 +133,25 @@ class ItemViewState extends State<ItemView> {
 
                 return CircularProgressIndicator();
               }),
-          RaisedButton(onPressed: () async {
-            _item.name = _itemController.nameController.text;
-            _item.description = _itemController.descriptionController.text;
-            _item
-                .toSquareItem(_addedItemsProvider.selectedImageUrl)
-                .post()
-                .then((itemSuccessfullySent) {
-              _addedItemsProvider.addItem(itemSuccessfullySent);
-              _searchedItemProvider.removeItem();
-            }).catchError((e) {
-              return Scaffold.of(context).showSnackBar(SnackBar(
-                content: Center(child: Text('could not send item to square')),
-                backgroundColor: Colors.red,
-              ));
-            });
-          })
+          RaisedButton(
+              hoverColor: Colors.green,
+              onPressed: () async {
+                _item.name = _itemController.nameController.text;
+                _item.description = _itemController.descriptionController.text;
+                SquareItem _sentItem =
+                    _item.toSquareItem(_addedItemsProvider.selectedImageUrl);
+
+                _sentItem.post().then((res) {
+                  _addedItemsProvider.addItem(_sentItem);
+                  _searchedItemProvider.removeItem();
+                }).catchError((e) {
+                  return Scaffold.of(context).showSnackBar(SnackBar(
+                    content:
+                        Center(child: Text('could not send item to square')),
+                    backgroundColor: Colors.red,
+                  ));
+                });
+              })
         ],
       ),
     );

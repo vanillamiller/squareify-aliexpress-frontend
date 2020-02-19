@@ -60,6 +60,26 @@ class Option {
         "values": _values.map((val) => val.toSquareJson()).toList()
       };
 
+  void addValue(OptionInfo valueToAdd) {
+    this._values.add(valueToAdd);
+  }
+
+  void removeValue(OptionInfo valueToRemove) {
+    num index = this.contains(valueToRemove);
+    if (index > -1) {
+      this._values.removeAt(index);
+    }
+  }
+
+  num contains(OptionInfo value) {
+    for (var i = 0; i < this._values.length; i++) {
+      if (this._values[i].name == value.name) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   factory Option.fromJson(Map<String, dynamic> json) => new Option(
       name: json['name'], values: parseOptionInformation(json['values']));
 }

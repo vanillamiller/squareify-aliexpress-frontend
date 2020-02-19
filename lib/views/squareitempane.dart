@@ -50,7 +50,8 @@ class SquareItemTile extends StatelessWidget {
                     children: <Widget>[
                       Container(
                           width: constraints.maxWidth,
-                          child: Text(_item.description))
+                          child: Text(_item.description,
+                              style: subHeading2(context)))
                     ],
                   ),
                 ),
@@ -62,7 +63,7 @@ class SquareItemTile extends StatelessWidget {
                   ],
                 ),
                 Divider(
-                  color: Color(0xff2e3b4e),
+                  color: Colors.grey[600],
                   thickness: 4,
                 )
               ],
@@ -82,7 +83,9 @@ class SquareItemOptionsChipsBar extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Row(
-              children: <Widget>[Text(option.name)],
+              children: <Widget>[
+                Text(option.name, style: subHeading2(context))
+              ],
             ),
             Wrap(
               children: option.values
