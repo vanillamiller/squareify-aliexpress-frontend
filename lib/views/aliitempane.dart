@@ -120,7 +120,6 @@ class ItemView extends StatelessWidget {
                                   RaisedButton(
                                       hoverColor: Colors.green,
                                       onPressed: () async {
-                                        print('button pressed');
                                         _itemToSend.name =
                                             _itemController.nameController.text;
                                         _itemToSend.description =
@@ -128,6 +127,7 @@ class ItemView extends StatelessWidget {
                                                 .descriptionController.text;
                                         print('name is : ${_itemToSend.name}');
                                         _itemToSend.log();
+
                                         SquareItem _sentItem = _itemToSend
                                             .toSquareItem(_addedItemsProvider
                                                 .selectedImageUrl);
@@ -141,10 +141,11 @@ class ItemView extends StatelessWidget {
                                           return Scaffold.of(context)
                                               .showSnackBar(SnackBar(
                                             content: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: <Widget>[
-                                                Center(
-                                                    child: Text(
-                                                        'could not send item to square')),
+                                                Text(
+                                                    'could not send item to square'),
                                               ],
                                             ),
                                             backgroundColor: Colors.red,
@@ -267,7 +268,10 @@ class OptionBar extends StatelessWidget {
               ),
               Wrap(
                 children: _option.values
-                    .map<OptionTile>((value) => OptionTile(name: value.name))
+                    .map<OptionTile>((value) => OptionTile(
+                          valueName: value.name,
+                          optionName: _option.name,
+                        ))
                     .toList(),
               ),
             ],
@@ -277,20 +281,31 @@ class OptionBar extends StatelessWidget {
 }
 
 class OptionTile extends StatelessWidget {
-  final String _choiceName;
-  OptionTile({String name}) : _choiceName = name;
+  final String _valueName;
+  final String _optionName;
+  OptionTile({String valueName, String optionName})
+      : _valueName = valueName,
+        _optionName = optionName;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.all(8),
+  Widget build(BuildContext context) {
+    final _itemProvider = Provider.of<AliItem>(context);
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: GestureDetector(
+        onTap: () => _itemProvider.updateOption(new Option(
+            name: _optionName,
+            values: <OptionValue>[new OptionValue(name: _valueName)])),
         child: Container(
             decoration: neumorphicBox,
             height: 80,
             width: 80,
             child: Center(
-              child: Text(_choiceName),
+              child: Text(_valueName),
             )),
-      );
+      ),
+    );
+  }
 }
 
 class ItemInputField extends StatelessWidget {
