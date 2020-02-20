@@ -35,6 +35,33 @@ abstract class Item {
   String toString() {
     return 'id: $_id \n name: $name \n desc: $description \n options: $options';
   }
+
+  void _addOption(Option selectedOption) {
+    _options.add(selectedOption);
+  }
+
+  void _removeOption(Option selectedOptionToRemove, num index) {
+    OptionValue selectedOptionValueToRemove = selectedOptionToRemove.values[0];
+    _options[index].removeValue(selectedOptionValueToRemove);
+  }
+
+  void updateOption(Option optionToUpdate) {
+    int index = -1;
+    OptionValue valueToUpdate = optionToUpdate.values[0];
+    for (var i = 0; i < _options.length; i++) {
+      if (_options[i].name == optionToUpdate.name) {
+        index = i;
+        break;
+      }
+    }
+    if (index > -1) {
+      _options[index].contains(valueToUpdate) > -1
+          ? this._removeOption(optionToUpdate, index)
+          : this._addOption(optionToUpdate);
+    } else {
+      this._addOption(optionToUpdate);
+    }
+  }
 }
 
 class Option {

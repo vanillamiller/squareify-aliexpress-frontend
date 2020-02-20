@@ -60,24 +60,12 @@ class AliItemView extends StatelessWidget {
       );
 }
 
-class ItemView extends StatefulWidget {
-  final String _itemId;
-  ItemView({Key key, String itemId})
-      : _itemId = itemId,
-        super(key: key);
-  @override
-  State<StatefulWidget> createState() => ItemViewState();
-}
-
-class ItemViewState extends State<ItemView> {
-  AliItem _item;
-  AliItem _pendingItem;
+class ItemView extends StatelessWidget {
+  String _itemId;
   ItemInputControllers _itemController;
-  @override
-  void initState() {
-    super.initState();
-    _itemController = new ItemInputControllers();
-  }
+  ItemView({String itemId})
+      : _itemId = itemId,
+        _itemController = new ItemInputControllers();
 
   @override
   Widget build(BuildContext context) {
@@ -87,71 +75,84 @@ class ItemViewState extends State<ItemView> {
       child: Column(
         children: <Widget>[
           FutureBuilder<AliItem>(
-              future: AliItem.load(widget._itemId),
+              future: AliItem.load(_itemId),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  _item = snapshot.data;
-                  _itemController.nameController.text = _item.name;
+                  AliItem _loadedItem = snapshot.data;
+                  _itemController.nameController.text = _loadedItem.name;
                   _itemController.descriptionController.text =
-                      _item.description;
-                  print(_item.toSquareItem('selectedImage').toJson());
-                  return Container(
-                      width: mainTileWidth(context) * 0.8,
-                      child: Column(
-                        children: <Widget>[
-                          ItemInputFieldContainer(
-                            title: 'Images',
-                            child: ItemImageBar(
-                              imageUrls: _item.images,
+                      _loadedItem.description;
+                  return Provider<AliItem>(
+                    create: (_) => AliItem(),
+                    child: Container(
+                        width: mainTileWidth(context) * 0.8,
+                        child: Column(
+                          children: <Widget>[
+                            ItemInputFieldContainer(
+                              title: 'Images',
+                              child: ItemImageBar(
+                                imageUrls: _loadedItem.images,
+                              ),
                             ),
-                          ),
-                          ItemInputFieldContainer(
-                            title: 'Name',
-                            child: ItemInputField(
-                              controller: _itemController.nameController,
+                            ItemInputFieldContainer(
+                              title: 'Name',
+                              child: ItemInputField(
+                                controller: _itemController.nameController,
+                              ),
                             ),
-                          ),
-                          ItemInputFieldContainer(
-                            title: 'Description',
-                            child: ItemInputField(
-                              controller: _itemController.descriptionController,
+                            ItemInputFieldContainer(
+                              title: 'Description',
+                              child: ItemInputField(
+                                controller:
+                                    _itemController.descriptionController,
+                              ),
                             ),
-                          ),
-                          ItemInputFieldContainer(
-                            title: 'Options',
-                            child: Column(
-                              children: <OptionBar>[
-                                ...buildOptionBarList(_item.options),
-                              ],
+                            ItemInputFieldContainer(
+                              title: 'Options',
+                              child: Column(
+                                children: <OptionBar>[
+                                  ...buildOptionBarList(_loadedItem.options),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ));
+                            RaisedButton(
+                                hoverColor: Colors.green,
+                                onPressed: () async {
+                                  Provider.of<AliItem>(context).name =
+                                      _itemController.nameController.text;
+                                  Provider.of<AliItem>(context).description =
+                                      _itemController
+                                          .descriptionController.text;
+                                  SquareItem _sentItem = Provider.of<AliItem>(
+                                          context)
+                                      .toSquareItem(
+                                          _addedItemsProvider.selectedImageUrl);
+                                  _sentItem.post().then((res) {
+                                    _addedItemsProvider.addItem(_sentItem);
+                                    _searchedItemProvider.removeItem();
+                                  }).catchError((e) {
+                                    return Scaffold.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Row(
+                                        children: <Widget>[
+                                          Center(
+                                              child: Text(
+                                                  'could not send item to square')),
+                                        ],
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  });
+                                })
+                          ],
+                        )),
+                  );
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
 
                 return CircularProgressIndicator();
               }),
-          RaisedButton(
-              hoverColor: Colors.green,
-              onPressed: () async {
-                _item.name = _itemController.nameController.text;
-                _item.description = _itemController.descriptionController.text;
-                SquareItem _sentItem =
-                    _item.toSquareItem(_addedItemsProvider.selectedImageUrl);
-
-                _sentItem.post().then((res) {
-                  _addedItemsProvider.addItem(_sentItem);
-                  _searchedItemProvider.removeItem();
-                }).catchError((e) {
-                  return Scaffold.of(context).showSnackBar(SnackBar(
-                    content:
-                        Center(child: Text('could not send item to square')),
-                    backgroundColor: Colors.red,
-                  ));
-                });
-              })
         ],
       ),
     );
