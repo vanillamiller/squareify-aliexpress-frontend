@@ -36,8 +36,12 @@ abstract class Item {
     return 'id: $_id \n name: $name \n desc: $description \n options: $options';
   }
 
-  void _addOption(Option selectedOption) {
-    _options.add(selectedOption);
+  void _addOption(Option selectedOption, num index) {
+    if (index > -1) {
+      _options[index].addValue(selectedOption.values[0]);
+    } else {
+      _options.add(selectedOption);
+    }
   }
 
   void _removeOption(Option selectedOptionToRemove, num index) {
@@ -57,9 +61,9 @@ abstract class Item {
     if (index > -1) {
       _options[index].contains(valueToUpdate) > -1
           ? this._removeOption(optionToUpdate, index)
-          : this._addOption(optionToUpdate);
+          : this._addOption(optionToUpdate, index);
     } else {
-      this._addOption(optionToUpdate);
+      this._addOption(optionToUpdate, index);
     }
   }
 }

@@ -83,7 +83,7 @@ class ItemView extends StatelessWidget {
                   _itemController.descriptionController.text =
                       _loadedItem.description;
                   return Provider<AliItem>(
-                    create: (_) => AliItem(),
+                    create: (_) => AliItem(id: _itemId),
                     child: Container(
                         width: mainTileWidth(context) * 0.8,
                         child: Column(
@@ -280,7 +280,7 @@ class OptionBar extends StatelessWidget {
       );
 }
 
-class OptionTile extends StatelessWidget {
+class OptionTile extends StatefulWidget {
   final String _valueName;
   final String _optionName;
   OptionTile({String valueName, String optionName})
@@ -288,20 +288,31 @@ class OptionTile extends StatelessWidget {
         _optionName = optionName;
 
   @override
+  _OptionTileState createState() => _OptionTileState();
+}
+
+class _OptionTileState extends State<OptionTile> {
+  bool _selected = false;
+  @override
   Widget build(BuildContext context) {
     final _itemProvider = Provider.of<AliItem>(context);
     return Padding(
       padding: EdgeInsets.all(8),
       child: GestureDetector(
-        onTap: () => _itemProvider.updateOption(new Option(
-            name: _optionName,
-            values: <OptionValue>[new OptionValue(name: _valueName)])),
+        onTap: () {
+          setState(() {
+            _selected = !_selected;
+          });
+          _itemProvider.updateOption(new Option(
+              name: widget._optionName,
+              values: <OptionValue>[new OptionValue(name: widget._valueName)]));
+        },
         child: Container(
-            decoration: neumorphicBox,
+            decoration: _selected ? selectedBorder : neumorphicBox,
             height: 80,
             width: 80,
             child: Center(
-              child: Text(_valueName),
+              child: Text(widget._valueName),
             )),
       ),
     );
