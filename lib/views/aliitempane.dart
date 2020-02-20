@@ -115,35 +115,43 @@ class ItemView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            RaisedButton(
-                                hoverColor: Colors.green,
-                                onPressed: () async {
-                                  Provider.of<AliItem>(context).name =
-                                      _itemController.nameController.text;
-                                  Provider.of<AliItem>(context).description =
-                                      _itemController
-                                          .descriptionController.text;
-                                  SquareItem _sentItem = Provider.of<AliItem>(
-                                          context)
-                                      .toSquareItem(
-                                          _addedItemsProvider.selectedImageUrl);
-                                  _sentItem.post().then((res) {
-                                    _addedItemsProvider.addItem(_sentItem);
-                                    _searchedItemProvider.removeItem();
-                                  }).catchError((e) {
-                                    return Scaffold.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Row(
-                                        children: <Widget>[
-                                          Center(
-                                              child: Text(
-                                                  'could not send item to square')),
-                                        ],
-                                      ),
-                                      backgroundColor: Colors.red,
-                                    ));
-                                  });
-                                })
+                            Consumer<AliItem>(
+                              builder: (context, _itemToSend, __) =>
+                                  RaisedButton(
+                                      hoverColor: Colors.green,
+                                      onPressed: () async {
+                                        print('button pressed');
+                                        _itemToSend.name =
+                                            _itemController.nameController.text;
+                                        _itemToSend.description =
+                                            _itemController
+                                                .descriptionController.text;
+                                        print('name is : ${_itemToSend.name}');
+                                        _itemToSend.log();
+                                        SquareItem _sentItem = _itemToSend
+                                            .toSquareItem(_addedItemsProvider
+                                                .selectedImageUrl);
+
+                                        _sentItem.post().then((res) {
+                                          _addedItemsProvider
+                                              .addItem(_sentItem);
+                                          _searchedItemProvider.removeItem();
+                                        }).catchError((e) {
+                                          print('$e');
+                                          return Scaffold.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Row(
+                                              children: <Widget>[
+                                                Center(
+                                                    child: Text(
+                                                        'could not send item to square')),
+                                              ],
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ));
+                                        });
+                                      }),
+                            )
                           ],
                         )),
                   );

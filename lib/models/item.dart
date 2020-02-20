@@ -9,10 +9,10 @@ abstract class Item {
   List<Option> _options;
 
   Item({String id, String name, String description, List<Option> options})
-      : _id = id,
-        _name = name,
-        _description = description,
-        _options = options;
+      : _id = id == null ? '' : id,
+        _name = name == null ? '' : name,
+        _description = description == null ? '' : description,
+        _options = options == null ? new List<Option>() : options;
 
   String get id => _id;
   // set id(String id) => _id = id;
