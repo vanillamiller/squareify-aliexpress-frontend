@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:squareneumorphic/models/item.dart';
 
-class ItemInputControllers {
+class ItemInputControllers with ChangeNotifier {
   ItemInputControllers()
       : nameController = new TextEditingController(),
         descriptionController = new TextEditingController(),
@@ -17,13 +17,13 @@ class ItemInputControllers {
   }
 
   void removeOption(Option selectedOptionToRemove, num index) {
-    OptionInfo selectedOptionValueToRemove = selectedOptionToRemove.values[0];
+    OptionValue selectedOptionValueToRemove = selectedOptionToRemove.values[0];
     selectedOptions[index].removeValue(selectedOptionValueToRemove);
   }
 
   void updateOption(Option optionToUpdate) {
     int index = -1;
-    OptionInfo valueToUpdate = optionToUpdate.values[0];
+    OptionValue valueToUpdate = optionToUpdate.values[0];
     for (var i = 0; i < selectedOptions.length; i++) {
       if (selectedOptions[i].name == optionToUpdate.name) {
         index = i;

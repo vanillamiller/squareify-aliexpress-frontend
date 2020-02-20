@@ -39,19 +39,19 @@ abstract class Item {
 
 class Option {
   String _name;
-  List<OptionInfo> _values;
+  List<OptionValue> _values;
 
   get values => _values;
   get name => _name;
 
-  Option({String name, List<OptionInfo> values})
+  Option({String name, List<OptionValue> values})
       : _name = name,
         _values = values;
 
-  static List<OptionInfo> parseOptionInformation(optionsInfoJson) {
-    var listofOptionInfo = optionsInfoJson as List;
-    return listofOptionInfo
-        .map((optInfo) => OptionInfo.fromJson(optInfo))
+  static List<OptionValue> parseOptionValuermation(optionsInfoJson) {
+    var listofOptionValue = optionsInfoJson as List;
+    return listofOptionValue
+        .map((optInfo) => OptionValue.fromJson(optInfo))
         .toList();
   }
 
@@ -60,18 +60,18 @@ class Option {
         "values": _values.map((val) => val.toSquareJson()).toList()
       };
 
-  void addValue(OptionInfo valueToAdd) {
+  void addValue(OptionValue valueToAdd) {
     this._values.add(valueToAdd);
   }
 
-  void removeValue(OptionInfo valueToRemove) {
+  void removeValue(OptionValue valueToRemove) {
     num index = this.contains(valueToRemove);
     if (index > -1) {
       this._values.removeAt(index);
     }
   }
 
-  num contains(OptionInfo value) {
+  num contains(OptionValue value) {
     for (var i = 0; i < this._values.length; i++) {
       if (this._values[i].name == value.name) {
         return i;
@@ -81,14 +81,14 @@ class Option {
   }
 
   factory Option.fromJson(Map<String, dynamic> json) => new Option(
-      name: json['name'], values: parseOptionInformation(json['values']));
+      name: json['name'], values: parseOptionValuermation(json['values']));
 }
 
-class OptionInfo {
+class OptionValue {
   String _name;
   String _image;
 
-  OptionInfo({String name, String image})
+  OptionValue({String name, String image})
       : _name = name,
         _image = image;
 
@@ -97,6 +97,6 @@ class OptionInfo {
 
   Map<String, dynamic> toSquareJson() => {"name": this._name};
 
-  factory OptionInfo.fromJson(Map<String, dynamic> json) =>
-      new OptionInfo(name: json['name'], image: json['image']);
+  factory OptionValue.fromJson(Map<String, dynamic> json) =>
+      new OptionValue(name: json['name'], image: json['image']);
 }

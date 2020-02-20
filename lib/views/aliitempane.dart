@@ -219,7 +219,7 @@ class ItemImage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () => {_addedItem.imageUrl = this._url},
-        child: SizedBox(
+        child: Container(
           width: 120,
           child: Image.network(
             _url,
@@ -258,7 +258,7 @@ class OptionBar extends StatelessWidget {
               ),
               Wrap(
                 children: _option.values
-                    .map<ChoiceTile>((value) => ChoiceTile(name: value.name))
+                    .map<OptionTile>((value) => OptionTile(name: value.name))
                     .toList(),
               ),
             ],
@@ -267,9 +267,9 @@ class OptionBar extends StatelessWidget {
       );
 }
 
-class ChoiceTile extends StatelessWidget {
+class OptionTile extends StatelessWidget {
   final String _choiceName;
-  ChoiceTile({String name}) : _choiceName = name;
+  OptionTile({String name}) : _choiceName = name;
 
   @override
   Widget build(BuildContext context) => Padding(
