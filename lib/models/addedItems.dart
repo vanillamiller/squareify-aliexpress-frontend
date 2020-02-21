@@ -17,7 +17,7 @@ class AddedItems extends ChangeNotifier {
   String get selectedImageUrl => _selectedImageUrl;
 
   List<SquareItemTile> toTile() =>
-      _addedItems.map((item) => SquareItemTile(item: item)).toList();
+      _addedItems.reversed.map((item) => SquareItemTile(item: item)).toList();
 
   void addItem(SquareItem item) {
     print('adding item');
