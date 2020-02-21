@@ -1,5 +1,7 @@
 # Squarify-AliExpress-frontend
 
+![](demo.gif)
+
 This is the frontend Flutter web application for the Squarify-Aliexpress proof of concept app.
 
 It is deployed here at: https://square-459ed.web.app/#/
