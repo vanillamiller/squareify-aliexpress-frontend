@@ -34,36 +34,42 @@ class SquareItemTile extends StatelessWidget {
                         child: Image.network(_item.imageUrl,
                             fit: BoxFit.fitWidth)),
                     SizedBox(
-                      width: constraints.maxWidth * 0.1,
+                      width: constraints.maxWidth * 0.05,
                     ),
                     Container(
-                        width: constraints.maxWidth * 0.5,
+                        width: constraints.maxWidth * 0.55,
                         child: Text(_item.name, style: subHeading2(context))),
                     SizedBox(
                       width: constraints.maxWidth * 0.1,
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                          width: constraints.maxWidth,
+                Row(
+                  children: <Widget>[
+                    Container(
+                        width: constraints.maxWidth,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
                           child: Text(_item.description,
-                              style: subHeading2(context)))
-                    ],
-                  ),
+                              style: TextStyle(fontWeight: FontWeight.w500)),
+                        ))
+                  ],
                 ),
                 Row(
                   children: <Widget>[
-                    SquareItemOptionsChipsBar(
-                      options: _item.options,
+                    Container(
+                      width: constraints.maxWidth,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: SquareItemOptionsChipsBar(
+                          options: _item.options,
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 Divider(
-                  color: Colors.grey[600],
+                  color: Colors.grey[300],
                   thickness: 4,
                 )
               ],
@@ -78,30 +84,29 @@ class SquareItemOptionsChipsBar extends StatelessWidget {
   @required
   final List<Option> _options;
 
-  Container buildOptionBar(Option option, BuildContext context) => Container(
-        width: mainTileWidth(context) * 0.75,
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(option.name, style: subHeading2(context))
-              ],
-            ),
-            Wrap(
-              children: option.values
-                  .map<Padding>((value) => Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Chip(label: Text(value.name)),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
+  Widget buildOptionBar(Option option, BuildContext context) => Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[Text(option.name, style: subHeading2(context))],
+          ),
+          Wrap(
+            spacing: 16,
+            runSpacing: 8,
+            alignment: WrapAlignment.end,
+            children: option.values
+                .map<Chip>((value) => Chip(
+                    backgroundColor: Colors.green,
+                    label: Text(value.name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.white))))
+                .toList(),
+          ),
+        ],
       );
 
   Widget optionBarFactory(List<Option> options, BuildContext context) => Column(
       children: options
-          .map<Container>((option) => buildOptionBar(option, context))
+          .map<Widget>((option) => buildOptionBar(option, context))
           .toList());
 
   @override

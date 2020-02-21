@@ -312,7 +312,8 @@ class _OptionTileState extends State<OptionTile> {
             height: 80,
             width: 80,
             child: Center(
-              child: Text(widget._valueName),
+              child: Text(widget._valueName,
+                  style: TextStyle(fontWeight: FontWeight.w500)),
             )),
       ),
     );
