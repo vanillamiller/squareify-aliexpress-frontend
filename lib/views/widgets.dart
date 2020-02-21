@@ -41,6 +41,10 @@ BoxDecoration neumorphicBox = BoxDecoration(
       )
     ]);
 
+BoxDecoration selectedBorder = BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(30)),
+    border: Border.all(width: 2, color: Colors.green));
+
 BoxDecoration neumorphicCircle =
     BoxDecoration(shape: BoxShape.circle, color: Colors.grey[100],
         // borderRadius: BorderRadius.all(Radius.circular(30)),
