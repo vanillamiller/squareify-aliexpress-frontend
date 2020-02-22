@@ -10,7 +10,7 @@ final String url =
 
 ///
 Future<AliItem> getAliExpressItemById(String id) async {
-  print('in item net');
+  print('in item net and id is: $id');
   String encodedToken;
   try {
     encodedToken = await WebStorage.getToken();
@@ -21,7 +21,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
 
   final Map<String, String> headers = {
     HttpHeaders.authorizationHeader: encodedToken,
-    // HttpHeaders.contentTypeHeader: "application/json"
+    HttpHeaders.contentTypeHeader: "application/json"
   };
   // print(headers);
   try {

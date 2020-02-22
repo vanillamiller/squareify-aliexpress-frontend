@@ -19,37 +19,43 @@ class DashboardView extends StatelessWidget with Protected {
 
 BoxConstraints mainTileConstraints = BoxConstraints(minWidth: 360);
 
-double mainTileWidth(BuildContext context) => screenWidth(context) / 2 - 96;
-double mainTileHeight(BuildContext context) => screenHeight(context) - 48;
+double mainTileWidth(BuildContext context) => isLandscape(context)
+    ? screenWidth(context) / 2 - 96
+    : screenWidth(context) * 0.86;
+double mainTileHeight(BuildContext context) => isLandscape(context)
+    ? screenHeight(context) - 48
+    : screenHeight(context) * 0.86;
 
 class Dashboard extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Container(
-          child: ChangeNotifierProvider(
-        create: (context) => AddedItems(),
-        child: Wrap(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          alignment: WrapAlignment.spaceEvenly,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(32),
-              child: Container(
-                  constraints: mainTileConstraints,
-                  height: mainTileHeight(context),
-                  width: mainTileWidth(context),
-                  decoration: neumorphicBox,
-                  child: AliItemView()),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(32),
-              child: Container(
-                  constraints: mainTileConstraints,
-                  height: mainTileHeight(context),
-                  width: mainTileWidth(context),
-                  decoration: neumorphicBox,
-                  child: SquareItemView()),
-            )
-          ],
-        ),
-      ));
+  Widget build(BuildContext context) => SingleChildScrollView(
+        child: Container(
+            child: ChangeNotifierProvider(
+          create: (context) => AddedItems(),
+          child: Wrap(
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            alignment: WrapAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(32),
+                child: Container(
+                    constraints: mainTileConstraints,
+                    height: mainTileHeight(context),
+                    width: mainTileWidth(context),
+                    decoration: neumorphicBox,
+                    child: AliItemView()),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(32),
+                child: Container(
+                    constraints: mainTileConstraints,
+                    height: mainTileHeight(context),
+                    width: mainTileWidth(context),
+                    decoration: neumorphicBox,
+                    child: SquareItemView()),
+              )
+            ],
+          ),
+        )),
+      );
 }
