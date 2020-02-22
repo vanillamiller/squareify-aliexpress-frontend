@@ -82,8 +82,9 @@ class ItemView extends StatelessWidget {
                   _itemController.nameController.text = _loadedItem.name;
                   _itemController.descriptionController.text =
                       _loadedItem.description;
-                  return Provider<AliItem>(
-                    create: (_) => AliItem(id: _itemId),
+                  return Provider<SquareItem>(
+                    create: (_) => SquareItem(
+                        id: _itemId, imageUrl: _loadedItem.images[0]),
                     child: Container(
                         width: mainTileWidth(context) * 0.8,
                         child: Column(
@@ -115,7 +116,7 @@ class ItemView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Consumer<AliItem>(
+                            Consumer<SquareItem>(
                               builder: (context, _itemToSend, __) =>
                                   RaisedButton(
                                       hoverColor: Colors.green,
@@ -128,13 +129,9 @@ class ItemView extends StatelessWidget {
                                         print('name is : ${_itemToSend.name}');
                                         _itemToSend.log();
 
-                                        SquareItem _sentItem = _itemToSend
-                                            .toSquareItem(_addedItemsProvider
-                                                .selectedImageUrl);
-
-                                        _sentItem.post().then((res) {
+                                        _itemToSend.post().then((res) {
                                           _addedItemsProvider
-                                              .addItem(_sentItem);
+                                              .addItem(_itemToSend);
                                           _searchedItemProvider.removeItem();
                                         }).catchError((e) {
                                           print('$e');
@@ -224,11 +221,11 @@ class ItemImage extends StatelessWidget {
   ItemImage({String url}) : _url = url;
   @override
   Widget build(BuildContext context) {
-    final _addedItem = Provider.of<AddedItems>(context);
+    final _squareItemToSend = Provider.of<SquareItem>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () => {_addedItem.imageUrl = this._url},
+        onTap: () => {_squareItemToSend.imageUrl = this._url},
         child: Container(
           width: 120,
           child: Image.network(
@@ -295,7 +292,7 @@ class _OptionTileState extends State<OptionTile> {
   bool _selected = false;
   @override
   Widget build(BuildContext context) {
-    final _itemProvider = Provider.of<AliItem>(context);
+    final _itemProvider = Provider.of<SquareItem>(context);
     return Padding(
       padding: EdgeInsets.all(8),
       child: GestureDetector(
