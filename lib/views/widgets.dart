@@ -23,26 +23,30 @@ class Waves extends StatelessWidget {
       );
 }
 
-BoxDecoration neumorphicBox = BoxDecoration(
-    color: Colors.grey[200],
-    borderRadius: BorderRadius.all(Radius.circular(30)),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey[500],
-        offset: Offset(4.0, 4.0),
-        blurRadius: 15,
-        spreadRadius: 1,
-      ),
-      BoxShadow(
-        color: Colors.white,
-        offset: Offset(-4.0, -4.0),
-        blurRadius: 15,
-        spreadRadius: 1,
-      )
-    ]);
+BoxDecoration neumorphicBox(String context) => BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: context == 'tile'
+            ? BorderRadius.all(Radius.circular(30))
+            : BorderRadius.all(Radius.circular(8)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[500],
+            offset: Offset(4.0, 4.0),
+            blurRadius: 15,
+            spreadRadius: 1,
+          ),
+          BoxShadow(
+            color: Colors.white,
+            offset: Offset(-4.0, -4.0),
+            blurRadius: 15,
+            spreadRadius: 1,
+          )
+        ]);
 
-BoxDecoration selectedBorder = BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(30)),
+BoxDecoration selectedBorder(String context) => BoxDecoration(
+    borderRadius: context == 'tile'
+        ? BorderRadius.all(Radius.circular(30))
+        : BorderRadius.all(Radius.circular(8)),
     border: Border.all(width: 2, color: Colors.green));
 
 BoxDecoration neumorphicCircle =

@@ -18,10 +18,10 @@ class DashboardView extends StatelessWidget with Protected {
 }
 
 double mainTileWidth(BuildContext context) => isLandscape(context)
-    ? screenWidth(context) / 2 - 96
+    ? screenWidth(context) / 2 - 64
     : screenWidth(context) * 0.86;
 double mainTileHeight(BuildContext context) => isLandscape(context)
-    ? screenHeight(context) - 72
+    ? screenHeight(context) - 64
     : screenHeight(context) * 0.86;
 
 class Dashboard extends StatelessWidget {
@@ -31,14 +31,14 @@ class Dashboard extends StatelessWidget {
             child: ChangeNotifierProvider(
           create: (context) => AddedItems(),
           child: Wrap(
-            alignment: WrapAlignment.spaceEvenly,
+            // alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(32),
                 child: Container(
                     height: mainTileHeight(context),
                     width: mainTileWidth(context),
-                    decoration: neumorphicBox,
+                    decoration: neumorphicBox('tile'),
                     child: AliItemView()),
               ),
               Padding(
@@ -46,7 +46,7 @@ class Dashboard extends StatelessWidget {
                 child: Container(
                     height: mainTileHeight(context),
                     width: mainTileWidth(context),
-                    decoration: neumorphicBox,
+                    decoration: neumorphicBox('tile'),
                     child: SquareItemView()),
               )
             ],

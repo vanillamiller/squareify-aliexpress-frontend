@@ -27,9 +27,11 @@ class AliItemView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                      height: (mainTileHeight(context) - 16) * 0.1,
+                      height: (mainTileHeight(context)) * 0.1,
                       child: Padding(
-                          padding: EdgeInsets.all(16), child: aliTiny(context)))
+                        padding: EdgeInsets.all(16),
+                        child: aliTiny(context),
+                      ))
                 ],
               ),
               Container(
@@ -257,19 +259,25 @@ class ItemImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _squareItemToSend = Provider.of<SquareItem>(context);
-    String _selectedImageUrl = _squareItemToSend.imageUrl;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () => {_squareItemToSend.imageUrl = this._url},
         child: Consumer<SquareItem>(
           builder: (context, _selectedItem, child) => Container(
-            decoration:
-                _selectedItem.imageUrl == this._url ? selectedBorder : null,
-            width: 120,
-            child: Image.network(
-              _url,
-              fit: BoxFit.fitWidth,
+            decoration: _selectedItem.imageUrl == this._url
+                ? selectedBorder('image')
+                : neumorphicBox('image'),
+            width: 136,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  _url,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
             ),
           ),
         ),
@@ -345,12 +353,16 @@ class _OptionTileState extends State<OptionTile> {
               values: <OptionValue>[new OptionValue(name: widget._valueName)]));
         },
         child: Container(
-            decoration: _selected ? selectedBorder : neumorphicBox,
+            decoration:
+                _selected ? selectedBorder('tile') : neumorphicBox('tile'),
             height: 80,
             width: 80,
             child: Center(
-              child: Text(widget._valueName,
-                  style: TextStyle(fontWeight: FontWeight.w500)),
+              child: Text(
+                widget._valueName,
+                style: TextStyle(fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
             )),
       ),
     );
