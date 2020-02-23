@@ -41,7 +41,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
     print('+++++++++++++++++++++ IN ITEMMAPPED GET +++++++++++++++++++++++++');
     print('${response.statusCode}');
     print('${response.body}');
-    throw Exception('Failed to load item');
+    throw Exception(jsonDecode(response.body)['message']);
   }
 }
 

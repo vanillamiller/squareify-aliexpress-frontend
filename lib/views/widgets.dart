@@ -24,11 +24,11 @@ class Waves extends StatelessWidget {
 }
 
 BoxDecoration neumorphicBox = BoxDecoration(
-    color: Colors.grey[100],
+    color: Colors.grey[200],
     borderRadius: BorderRadius.all(Radius.circular(30)),
     boxShadow: [
       BoxShadow(
-        color: Colors.grey[400],
+        color: Colors.grey[500],
         offset: Offset(4.0, 4.0),
         blurRadius: 15,
         spreadRadius: 1,

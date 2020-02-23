@@ -14,14 +14,14 @@ class DashboardView extends StatelessWidget with Protected {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-      child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[100]));
+      child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[200]));
 }
 
 double mainTileWidth(BuildContext context) => isLandscape(context)
     ? screenWidth(context) / 2 - 96
     : screenWidth(context) * 0.86;
 double mainTileHeight(BuildContext context) => isLandscape(context)
-    ? screenHeight(context) - 48
+    ? screenHeight(context) - 72
     : screenHeight(context) * 0.86;
 
 class Dashboard extends StatelessWidget {

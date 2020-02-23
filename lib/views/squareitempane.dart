@@ -6,13 +6,31 @@ import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/textstyles.dart';
 import 'package:squareneumorphic/views/dashboard.dart';
 
+import '../images.dart';
+
 class SquareItemView extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Container(
-      child: Consumer<AddedItems>(
-          builder: (context, addedItems, child) => ListView(
-                children: addedItems.toTile(),
-              )));
+  Widget build(BuildContext context) => Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                  height: (mainTileHeight(context) - 16) * 0.1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: squareTiny(context),
+                  ))
+            ],
+          ),
+          Container(
+              height: (mainTileHeight(context) - 16) * 0.9,
+              child: Consumer<AddedItems>(
+                  builder: (context, addedItems, child) => ListView(
+                        children: addedItems.toTile(),
+                      ))),
+        ],
+      );
 }
 
 class SquareItemTile extends StatelessWidget {
