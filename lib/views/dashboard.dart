@@ -14,7 +14,7 @@ class DashboardView extends StatelessWidget with Protected {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-      child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[200]));
+      child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[100]));
 }
 
 double mainTileWidth(BuildContext context) => isLandscape(context)
