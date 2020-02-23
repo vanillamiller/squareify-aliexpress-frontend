@@ -17,8 +17,6 @@ class DashboardView extends StatelessWidget with Protected {
       child: Scaffold(body: Dashboard(), backgroundColor: Colors.grey[100]));
 }
 
-BoxConstraints mainTileConstraints = BoxConstraints(minWidth: 360);
-
 double mainTileWidth(BuildContext context) => isLandscape(context)
     ? screenWidth(context) / 2 - 96
     : screenWidth(context) * 0.86;
@@ -39,7 +37,6 @@ class Dashboard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(32),
                 child: Container(
-                    constraints: mainTileConstraints,
                     height: mainTileHeight(context),
                     width: mainTileWidth(context),
                     decoration: neumorphicBox,
@@ -48,7 +45,6 @@ class Dashboard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(32),
                 child: Container(
-                    constraints: mainTileConstraints,
                     height: mainTileHeight(context),
                     width: mainTileWidth(context),
                     decoration: neumorphicBox,
