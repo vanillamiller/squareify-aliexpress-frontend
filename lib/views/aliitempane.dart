@@ -18,43 +18,60 @@ import 'dashboard.dart';
 class AliItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) => Padding(
-          padding: const EdgeInsets.all(16),
-          child: ChangeNotifierProvider(
-            create: (context) => SearchedItem(),
-            child: ListView(children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            ChangeNotifierProvider(
+          create: (context) => SearchedItem(),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          decoration: neumorphicCircle, child: aliTiny(context))
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      AliUrlForm(),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Center(
-                          child: Consumer<SearchedItem>(
-                        builder: (context, pendingItem, child) =>
-                            pendingItem.itemId == ''
-                                ? SizedBox(
-                                    height: 300,
-                                    child: placeholderBoxImage(context))
-                                : ItemView(itemId: pendingItem.itemId),
+                  SizedBox(
+                      height: (mainTileHeight(context)) * 0.1,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: aliTiny(context),
                       ))
-                    ],
-                  ),
                 ],
               ),
-            ]),
+              Container(
+                height: (mainTileHeight(context) - 16) * 0.9,
+                child: ListView(
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            AliUrlForm(),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                                child: Consumer<SearchedItem>(
+                              builder: (context, pendingItem, child) =>
+                                  pendingItem.itemId == ''
+                                      ? Column(
+                                          children: <Widget>[
+                                            SizedBox(height: 90),
+                                            SizedBox(
+                                                height: 300,
+                                                child: placeholderBoxImage(
+                                                    context)),
+                                          ],
+                                        )
+                                      : ItemView(itemId: pendingItem.itemId),
+                            ))
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -82,8 +99,9 @@ class ItemView extends StatelessWidget {
                   _itemController.nameController.text = _loadedItem.name;
                   _itemController.descriptionController.text =
                       _loadedItem.description;
-                  return Provider<AliItem>(
-                    create: (_) => AliItem(id: _itemId),
+                  return ChangeNotifierProvider<SquareItem>(
+                    create: (_) => SquareItem(
+                        id: _itemId, imageUrl: _loadedItem.images[0]),
                     child: Container(
                         width: mainTileWidth(context) * 0.8,
                         child: Column(
@@ -115,9 +133,15 @@ class ItemView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Consumer<AliItem>(
+                            Consumer<SquareItem>(
                               builder: (context, _itemToSend, __) =>
                                   RaisedButton(
+                                      color: Colors.grey[100],
+                                      child: Text(
+                                        'Squarify',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700),
+                                      ),
                                       hoverColor: Colors.green,
                                       onPressed: () async {
                                         _itemToSend.name =
@@ -128,21 +152,29 @@ class ItemView extends StatelessWidget {
                                         print('name is : ${_itemToSend.name}');
                                         _itemToSend.log();
 
-                                        SquareItem _sentItem = _itemToSend
-                                            .toSquareItem(_addedItemsProvider
-                                                .selectedImageUrl);
-
-                                        _sentItem.post().then((res) {
+                                        _itemToSend.post().then((res) {
                                           _addedItemsProvider
-                                              .addItem(_sentItem);
+                                              .addItem(_itemToSend);
                                           _searchedItemProvider.removeItem();
+                                          return Scaffold.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                    'item sent to square store'),
+                                              ],
+                                            ),
+                                            backgroundColor: Colors.green,
+                                          ));
                                         }).catchError((e) {
                                           print('$e');
                                           return Scaffold.of(context)
                                               .showSnackBar(SnackBar(
                                             content: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
                                                     'could not send item to square'),
@@ -209,11 +241,13 @@ class ItemImageBar extends StatelessWidget {
 
   ItemImageBar({List<String> imageUrls}) : _imageUrls = imageUrls;
   @override
-  Widget build(BuildContext context) => Container(
-      width: mainTileWidth(context) * 0.75,
-      child: Wrap(
-        children: <ItemImage>[...insertImages(_imageUrls)],
-      ));
+  Widget build(BuildContext context) {
+    return Container(
+        width: mainTileWidth(context) * 0.75,
+        child: Wrap(
+          children: <ItemImage>[...insertImages(_imageUrls)],
+        ));
+  }
 
   List<ItemImage> insertImages(List<String> imageurls) =>
       imageurls.map<ItemImage>((url) => ItemImage(url: url)).toList();
@@ -224,16 +258,27 @@ class ItemImage extends StatelessWidget {
   ItemImage({String url}) : _url = url;
   @override
   Widget build(BuildContext context) {
-    final _addedItem = Provider.of<AddedItems>(context);
+    final _squareItemToSend = Provider.of<SquareItem>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () => {_addedItem.imageUrl = this._url},
-        child: Container(
-          width: 120,
-          child: Image.network(
-            _url,
-            fit: BoxFit.fitWidth,
+        onTap: () => {_squareItemToSend.imageUrl = this._url},
+        child: Consumer<SquareItem>(
+          builder: (context, _selectedItem, child) => Container(
+            decoration: _selectedItem.imageUrl == this._url
+                ? selectedBorder('image')
+                : neumorphicBox('image'),
+            width: 136,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  _url,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -295,7 +340,7 @@ class _OptionTileState extends State<OptionTile> {
   bool _selected = false;
   @override
   Widget build(BuildContext context) {
-    final _itemProvider = Provider.of<AliItem>(context);
+    final _itemProvider = Provider.of<SquareItem>(context);
     return Padding(
       padding: EdgeInsets.all(8),
       child: GestureDetector(
@@ -308,12 +353,16 @@ class _OptionTileState extends State<OptionTile> {
               values: <OptionValue>[new OptionValue(name: widget._valueName)]));
         },
         child: Container(
-            decoration: _selected ? selectedBorder : neumorphicBox,
+            decoration:
+                _selected ? selectedBorder('tile') : neumorphicBox('tile'),
             height: 80,
             width: 80,
             child: Center(
-              child: Text(widget._valueName,
-                  style: TextStyle(fontWeight: FontWeight.w500)),
+              child: Text(
+                widget._valueName,
+                style: TextStyle(fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
             )),
       ),
     );
@@ -355,43 +404,46 @@ class AliUrlFormState extends State<AliUrlForm> {
   @override
   Widget build(BuildContext context) {
     final _searchedItemProvider = Provider.of<SearchedItem>(context);
-    // Build a Form widget using the _formKey created above.
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Form(
         key: _formKey,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: SizedBox(
-                width: mainTileWidth(context) * 0.6,
-                // height: 200,
-                child: TextFormField(
-                    controller: _urlInputController,
-                    validator: (value) =>
-                        RegExp("aliexpress\.com\/item\/[0-9]*\.html")
-                                .hasMatch(value)
-                            ? null
-                            : value.isEmpty
-                                ? "please enter an aliExpress item url"
-                                : "not a valid aliExpress item url"),
+            Container(
+              width: mainTileWidth(context),
+              child: Center(
+                child: SizedBox(
+                  width: mainTileWidth(context) * 0.8,
+                  child: TextFormField(
+                      controller: _urlInputController,
+                      validator: (value) =>
+                          RegExp("aliexpress\.com\/item\/[0-9]*\.html")
+                                  .hasMatch(value)
+                              ? null
+                              : value.isEmpty
+                                  ? "please enter an aliExpress item url"
+                                  : "not a valid aliExpress item url"),
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: RaisedButton(
-                color: Colors.grey[100],
-                onPressed: () {
-                  // Validate returns true if the form is valid, or false
-                  // otherwise.
-                  if (_formKey.currentState.validate()) {
-                    String text = _urlInputController.text;
-                    _searchedItemProvider.itemId = getItemId(text);
-                  }
-                },
-                child: Text('Submit'),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: RaisedButton(
+                    color: Colors.grey[100],
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        String text = _urlInputController.text;
+                        _searchedItemProvider.itemId = getItemId(text);
+                      }
+                    },
+                    child: Text('get item!',
+                        style: TextStyle(fontWeight: FontWeight.w700)),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

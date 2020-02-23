@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
+
 import 'item.dart';
 import '../controllers/itemmapper.dart' as ItemMapper;
 
-class SquareItem extends Item {
+class SquareItem extends Item with ChangeNotifier {
   String _imageUrl;
   SquareItem(
       {String id,
@@ -13,6 +15,10 @@ class SquareItem extends Item {
         super(id: id, name: name, description: description, options: options);
 
   String get imageUrl => _imageUrl;
+  set imageUrl(String imageUrl) {
+    _imageUrl = imageUrl;
+    notifyListeners();
+  }
 
   Map<String, dynamic> toJson() => {
         "id": this.id,

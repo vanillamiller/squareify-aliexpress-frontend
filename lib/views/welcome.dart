@@ -59,7 +59,7 @@ class Welcome extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 10),
                     child: Container(
-                      decoration: neumorphicBox,
+                      decoration: neumorphicBox('tile'),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: SizedBox(

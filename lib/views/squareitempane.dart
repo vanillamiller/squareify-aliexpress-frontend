@@ -6,13 +6,33 @@ import 'package:squareneumorphic/models/squareItem.dart';
 import 'package:squareneumorphic/textstyles.dart';
 import 'package:squareneumorphic/views/dashboard.dart';
 
+import '../images.dart';
+
 class SquareItemView extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Container(
-      child: Consumer<AddedItems>(
-          builder: (context, addedItems, child) => ListView(
-                children: addedItems.toTile(),
-              )));
+  Widget build(BuildContext context) => Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                  height: (mainTileHeight(context) - 16) * 0.1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: squareTiny(context)),
+                  ))
+            ],
+          ),
+          Container(
+              height: (mainTileHeight(context) - 16) * 0.9,
+              child: Consumer<AddedItems>(
+                  builder: (context, addedItems, child) => ListView(
+                        children: addedItems.toTile(),
+                      ))),
+        ],
+      );
 }
 
 class SquareItemTile extends StatelessWidget {
@@ -89,17 +109,21 @@ class SquareItemOptionsChipsBar extends StatelessWidget {
           Row(
             children: <Widget>[Text(option.name, style: subHeading2(context))],
           ),
-          Wrap(
-            spacing: 16,
-            runSpacing: 8,
-            alignment: WrapAlignment.end,
-            children: option.values
-                .map<Chip>((value) => Chip(
-                    backgroundColor: Colors.green,
-                    label: Text(value.name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, color: Colors.white))))
-                .toList(),
+          SizedBox(
+            width: mainTileWidth(context) - 32,
+            child: Wrap(
+              spacing: 16,
+              runSpacing: 8,
+              alignment: WrapAlignment.start,
+              children: option.values
+                  .map<Chip>((value) => Chip(
+                      backgroundColor: Colors.green,
+                      label: Text(value.name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white))))
+                  .toList(),
+            ),
           ),
         ],
       );
@@ -111,9 +135,8 @@ class SquareItemOptionsChipsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 16),
           child: optionBarFactory(_options, context),
         ),
       );

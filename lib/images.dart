@@ -20,5 +20,9 @@ Image aliTiny(BuildContext context) => Image(
     image: AssetImage('assets/images/alitiny.png'),
     fit: isLandscape(context) ? BoxFit.fitWidth : BoxFit.fitHeight);
 
+Image squareTiny(BuildContext context) => Image(
+    image: AssetImage('assets/images/squaretiny.png'),
+    fit: isLandscape(context) ? BoxFit.fitWidth : BoxFit.fitHeight);
+
 Image placeholderBoxImage(BuildContext context) =>
     Image(image: AssetImage('assets/images/box.png'), fit: BoxFit.fitHeight);

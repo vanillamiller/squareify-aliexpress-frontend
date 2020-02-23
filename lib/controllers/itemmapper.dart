@@ -9,7 +9,7 @@ final String url = "https://xxxxxxxxxx.execute-api.xxxxxxxxxx.amazonaws.com";
 
 ///
 Future<AliItem> getAliExpressItemById(String id) async {
-  print('in item net');
+  print('in item net and id is: $id');
   String encodedToken;
   try {
     encodedToken = await WebStorage.getToken();
@@ -20,7 +20,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
 
   final Map<String, String> headers = {
     HttpHeaders.authorizationHeader: encodedToken,
-    // HttpHeaders.contentTypeHeader: "application/json"
+    HttpHeaders.contentTypeHeader: "application/json"
   };
   // print(headers);
   try {
@@ -40,7 +40,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
     print('+++++++++++++++++++++ IN ITEMMAPPED GET +++++++++++++++++++++++++');
     print('${response.statusCode}');
     print('${response.body}');
-    throw Exception('Failed to load item');
+    throw Exception(jsonDecode(response.body)['message']);
   }
 }
 

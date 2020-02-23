@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squareneumorphic/controllers/servicelocator.dart';
+import 'package:squareneumorphic/themes.dart';
 import 'controllers/navigationService.dart';
 import 'controllers/router.dart' as Router;
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: _appTitle,
+        theme: basicTheme,
         onGenerateRoute: Router.generateRoute,
         navigatorKey: locator<NavigationService>().navigatorKey,
       );
