@@ -31,7 +31,6 @@ class Dashboard extends StatelessWidget {
             child: ChangeNotifierProvider(
           create: (context) => AddedItems(),
           child: Wrap(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
