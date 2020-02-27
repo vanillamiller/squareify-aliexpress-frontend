@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
 import 'item.dart';
-import '../controllers/itemmapper.dart' as ItemMapper;
+import '../controllers/itemMapper.dart' as ItemMapper;
+import 'option.dart';
 
+/// The representation of a Square Item currently in the Square store
+///
+/// Differs from AliItem in having only one image attachable
 class SquareItem extends Item with ChangeNotifier {
   String _imageUrl;
   SquareItem(
@@ -28,5 +32,6 @@ class SquareItem extends Item with ChangeNotifier {
         "options": options.map((option) => option.toSquareJson()).toList()
       };
 
+  /// Calls itemMapper and posts which then posts to Square store
   Future<SquareItem> post() => ItemMapper.postItemToSquare(this);
 }

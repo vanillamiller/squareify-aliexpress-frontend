@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
 
+import 'option.dart';
+
+/// Abstract class that is extended by both AliItem and SquareItem
 abstract class Item {
   @required
   final String _id;
@@ -36,6 +39,8 @@ abstract class Item {
     return 'id: $_id \n name: $name \n desc: $description \n options: $options';
   }
 
+  /// Adds Option : value pair if no pre existing option, otherwise appends
+  /// new value to current option
   void _addOption(Option selectedOption, num index) {
     if (index > -1) {
       _options[index].addValue(selectedOption.values[0]);
@@ -44,11 +49,14 @@ abstract class Item {
     }
   }
 
+  /// Removes option from list if no values, otherwise removes value from option
+  /// map
   void _removeOption(Option selectedOptionToRemove, num index) {
     OptionValue selectedOptionValueToRemove = selectedOptionToRemove.values[0];
     _options[index].removeValue(selectedOptionValueToRemove);
   }
 
+  /// Either adds or removes option
   void updateOption(Option optionToUpdate) {
     int index = -1;
     OptionValue valueToUpdate = optionToUpdate.values[0];
@@ -66,68 +74,4 @@ abstract class Item {
       this._addOption(optionToUpdate, index);
     }
   }
-}
-
-class Option {
-  String _name;
-  List<OptionValue> _values;
-
-  get values => _values;
-  get name => _name;
-
-  Option({String name, List<OptionValue> values})
-      : _name = name,
-        _values = values;
-
-  static List<OptionValue> parseOptionValuermation(optionsInfoJson) {
-    var listofOptionValue = optionsInfoJson as List;
-    return listofOptionValue
-        .map((optInfo) => OptionValue.fromJson(optInfo))
-        .toList();
-  }
-
-  Map<String, dynamic> toSquareJson() => {
-        "name": this._name,
-        "values": _values.map((val) => val.toSquareJson()).toList()
-      };
-
-  void addValue(OptionValue valueToAdd) {
-    this._values.add(valueToAdd);
-  }
-
-  void removeValue(OptionValue valueToRemove) {
-    num index = this.contains(valueToRemove);
-    if (index > -1) {
-      this._values.removeAt(index);
-    }
-  }
-
-  num contains(OptionValue value) {
-    for (var i = 0; i < this._values.length; i++) {
-      if (this._values[i].name == value.name) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  factory Option.fromJson(Map<String, dynamic> json) => new Option(
-      name: json['name'], values: parseOptionValuermation(json['values']));
-}
-
-class OptionValue {
-  String _name;
-  String _image;
-
-  OptionValue({String name, String image})
-      : _name = name,
-        _image = image;
-
-  get name => _name;
-  get image => _image;
-
-  Map<String, dynamic> toSquareJson() => {"name": this._name};
-
-  factory OptionValue.fromJson(Map<String, dynamic> json) =>
-      new OptionValue(name: json['name'], image: json['image']);
 }

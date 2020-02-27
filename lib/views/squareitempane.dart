@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:squareneumorphic/controllers/auth.dart';
+import 'package:squareneumorphic/models/option.dart';
+import 'package:squareneumorphic/routes/navigationService.dart';
+import 'package:squareneumorphic/routes/servicelocator.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
-import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
+import 'package:squareneumorphic/models/webStorage.dart';
 import 'package:squareneumorphic/textstyles.dart';
 import 'package:squareneumorphic/views/dashboard.dart';
+import 'package:squareneumorphic/views/welcome.dart';
 
 import '../images.dart';
 
@@ -12,16 +17,58 @@ class SquareItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Stack(
             children: <Widget>[
-              SizedBox(
-                  height: (mainTileHeight(context) - 16) * 0.1,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                      height: (mainTileHeight(context) - 16) * 0.1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: squareTiny(context)),
+                      ))
+                ],
+              ),
+              Align(
+                  alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: squareTiny(context)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
+                    child: RaisedButton(
+                        onPressed: () async {
+                          print('button pressed');
+                          bool signedOut =
+                              await signout().then((success) async {
+                            print('$success');
+                            if (success) {
+                              return await WebStorage.invalidate();
+                            } else {
+                              return false;
+                            }
+                          });
+                          if (signedOut) {
+                            print('signedout');
+                            return locator<NavigationService>()
+                                .navigateTo(WelcomeView.path);
+                          } else {
+                            return Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('Could not sign you out'),
+                                ],
+                              ),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                        },
+                        child: Text(
+                          'sign out',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        )),
                   ))
             ],
           ),

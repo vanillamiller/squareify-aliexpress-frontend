@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+/// Change notifies for AliPane,
 class SearchedItem extends ChangeNotifier {
   String _itemId = '';
   String get itemId => _itemId;
