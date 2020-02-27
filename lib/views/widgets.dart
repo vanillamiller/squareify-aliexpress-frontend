@@ -30,7 +30,7 @@ BoxDecoration neumorphicBox(String context) => BoxDecoration(
             : BorderRadius.all(Radius.circular(8)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey[500],
+            color: Colors.grey[400],
             offset: Offset(4.0, 4.0),
             blurRadius: 15,
             spreadRadius: 1,

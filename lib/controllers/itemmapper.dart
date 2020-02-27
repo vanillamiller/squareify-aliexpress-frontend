@@ -7,9 +7,8 @@ import 'package:squareneumorphic/models/webStorage.dart';
 
 final String url = "https://xxxxxxxxxx.execute-api.xxxxxxxxxx.amazonaws.com";
 
-///
+/// Gets relevant item information from api and returns Item
 Future<AliItem> getAliExpressItemById(String id) async {
-  print('in item net and id is: $id');
   String encodedToken;
   try {
     encodedToken = await WebStorage.getToken();
@@ -22,7 +21,7 @@ Future<AliItem> getAliExpressItemById(String id) async {
     HttpHeaders.authorizationHeader: encodedToken,
     HttpHeaders.contentTypeHeader: "application/json"
   };
-  // print(headers);
+
   try {
     response = await http.get('$url/dev/items?item=$id', headers: headers);
   } catch (e) {
@@ -37,15 +36,12 @@ Future<AliItem> getAliExpressItemById(String id) async {
     return AliItem.fromJson(body);
   } else {
     // If that response was not OK, throw an error.
-    print('+++++++++++++++++++++ IN ITEMMAPPED GET +++++++++++++++++++++++++');
-    print('${response.statusCode}');
-    print('${response.body}');
     throw Exception(jsonDecode(response.body)['message']);
   }
 }
 
+/// sends item to API to be added to Square store
 Future<SquareItem> postItemToSquare(SquareItem item) async {
-  print('in post');
   String encodedToken;
   try {
     encodedToken = await WebStorage.getToken();
@@ -64,17 +60,11 @@ Future<SquareItem> postItemToSquare(SquareItem item) async {
       .post('$url/dev/items', body: reqBody, headers: reqHeaders)
       .then((res) {
     if (res.statusCode == 200) {
-      print(
-          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-      print("body is: ${res.body}");
       return item;
     } else {
-      print('response stat: ${res.statusCode} and the body is : ${res.body}');
       throw ('could not send item to square');
     }
   }).catchError((e) {
-    print('+++++++++++++++++ the eroor was ++++++++++++++++++');
-    print('$e');
     throw e;
   });
 }

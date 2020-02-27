@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+/// Allows for the navigation of the app through URL as a common web app would
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();

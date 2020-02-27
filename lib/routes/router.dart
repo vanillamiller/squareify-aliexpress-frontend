@@ -7,14 +7,16 @@ import 'package:squareneumorphic/views/dashboard.dart';
 import 'package:squareneumorphic/views/errorpage.dart';
 import 'package:squareneumorphic/views/welcome.dart';
 
-import 'authorizor.dart';
+import '../controllers/auth.dart';
 
+/// builds route if user has appropriate scope priveledges
 Route<dynamic> _getRoute(RouteSettings settings, Widget view) =>
     MaterialPageRoute<void>(
         settings: settings,
         builder: (BuildContext context) =>
             view is Protected ? authorizationEncorcer(view, settings) : view);
 
+/// generates route based on url
 Route<dynamic> generateRoute(RouteSettings settings) {
   RoutingData route = settings.name.getRoutingData;
 
@@ -33,6 +35,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   }
 }
 
+/// represents the curerrent url in base and query parameters
 class RoutingData {
   final String path;
   final Map<String, String> _queryParameters;
@@ -43,6 +46,7 @@ class RoutingData {
   operator [](String key) => _queryParameters[key];
 }
 
+/// An extension on String that converts said String into RoutingData object
 extension StringExtension on String {
   RoutingData get getRoutingData {
     var uriData = Uri.parse(this);

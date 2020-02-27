@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:squareneumorphic/controllers/servicelocator.dart';
+import 'package:squareneumorphic/routes/servicelocator.dart';
 import 'package:squareneumorphic/themes.dart';
-import 'controllers/navigationService.dart';
-import 'controllers/router.dart' as Router;
+import 'routes/navigationService.dart';
+import 'routes/router.dart' as Router;
 
 void main() {
   setupLocator();
@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final _appTitle = 'AliExpress Squarifier';
+  final _appTitle = 'Squarify AliExpress';
 
   @override
   Widget build(BuildContext context) => MaterialApp(

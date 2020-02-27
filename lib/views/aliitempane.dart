@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:squareneumorphic/images.dart';
 import 'package:squareneumorphic/models/addedItems.dart';
 import 'package:squareneumorphic/models/aliItem.dart';
-import 'package:squareneumorphic/models/item.dart';
 import 'package:squareneumorphic/models/itemInputControllers.dart';
+import 'package:squareneumorphic/models/option.dart';
 import 'package:squareneumorphic/models/searchedItem.dart';
 import 'package:squareneumorphic/models/squareItem.dart';
 import '../images.dart';
@@ -15,6 +15,7 @@ import 'package:squareneumorphic/views/widgets.dart';
 
 import 'dashboard.dart';
 
+/// The left hand panel of the dashboard that renders AliExpress items
 class AliItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -43,7 +44,7 @@ class AliItemView extends StatelessWidget {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            AliUrlForm(),
+                            AliSearchBar(),
                           ],
                         ),
                         Row(
@@ -77,6 +78,7 @@ class AliItemView extends StatelessWidget {
       );
 }
 
+/// The Searchbar and body of the item view
 class ItemView extends StatelessWidget {
   String _itemId;
   ItemInputControllers _itemController;
@@ -200,6 +202,7 @@ class ItemView extends StatelessWidget {
   }
 }
 
+/// Wrapper for input fields whether text boxes or selections
 class ItemInputFieldContainer extends StatelessWidget {
   ItemInputFieldContainer({String title, Widget child})
       : _title = title,
@@ -232,10 +235,12 @@ class ItemInputFieldContainer extends StatelessWidget {
       ));
 }
 
+/// Returns a list of options bars
 List<OptionBar> buildOptionBarList(List<Option> options) {
   return options.map<OptionBar>((opt) => new OptionBar(option: opt)).toList();
 }
 
+/// Holds all images fetched from AliExpress Item page
 class ItemImageBar extends StatelessWidget {
   final List<String> _imageUrls;
 
@@ -253,6 +258,8 @@ class ItemImageBar extends StatelessWidget {
       imageurls.map<ItemImage>((url) => ItemImage(url: url)).toList();
 }
 
+/// neumorphic tile that holds image and updates the selected image in the
+/// SquareItem provider
 class ItemImage extends StatelessWidget {
   final String _url;
   ItemImage({String url}) : _url = url;
@@ -286,6 +293,7 @@ class ItemImage extends StatelessWidget {
   }
 }
 
+/// holds a option and its associated values
 class OptionBar extends StatelessWidget {
   final Option _option;
 
@@ -325,6 +333,7 @@ class OptionBar extends StatelessWidget {
       );
 }
 
+/// represents an option value in the UI
 class OptionTile extends StatefulWidget {
   final String _valueName;
   final String _optionName;
@@ -336,6 +345,7 @@ class OptionTile extends StatefulWidget {
   _OptionTileState createState() => _OptionTileState();
 }
 
+/// holds the state of the option tile (selected or not)
 class _OptionTileState extends State<OptionTile> {
   bool _selected = false;
   @override
@@ -369,6 +379,7 @@ class _OptionTileState extends State<OptionTile> {
   }
 }
 
+/// the input fields for name and description
 class ItemInputField extends StatelessWidget {
   TextEditingController _controller;
   ItemInputField({TextEditingController controller}) : _controller = controller;
@@ -386,17 +397,19 @@ class ItemInputField extends StatelessWidget {
       );
 }
 
-class AliUrlForm extends StatefulWidget {
+/// the search bar for the Ali item page url
+class AliSearchBar extends StatefulWidget {
   @override
-  AliUrlFormState createState() => AliUrlFormState();
+  AliSearchBarState createState() => AliSearchBarState();
 }
 
 // Create a corresponding State class.
 // This class holds data related to the form.
-class AliUrlFormState extends State<AliUrlForm> {
+class AliSearchBarState extends State<AliSearchBar> {
   final _formKey = GlobalKey<FormState>();
   var _urlInputController = TextEditingController();
 
+  /// Strip and return only the item id from the url
   String getItemId(url) => RegExp("item\/[0-9]*\.html")
       .stringMatch(url)
       .replaceAll(RegExp("[^0-9]+"), '');
